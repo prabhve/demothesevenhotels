@@ -97,12 +97,12 @@ export const HotelImage: React.FC<HotelImageProps> = ({
       <div className="absolute -bottom-16 -left-16 w-48 h-48 rounded-full bg-[#C89B6A]/10 blur-3xl pointer-events-none" />
 
       {/* Top Header Tag */}
-      <div className="relative z-10 flex items-center justify-between">
-        <span className="text-[11px] uppercase tracking-[0.2em] text-[#C89B6A] font-medium">
-          The Seven's Hotel · {category}
+      <div className="relative z-10 flex items-center justify-between gap-2">
+        <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[#C89B6A] font-medium truncate max-w-[calc(100%-110px)]">
+          The Seven's · {category}
         </span>
         {showAdminBadge && (
-          <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 border border-[#B47A46]/30 text-[#D8C7B4]/80 rounded">
+          <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 border border-[#B47A46]/30 text-[#D8C7B4]/80 rounded shrink-0">
             Official Photo Slot
           </span>
         )}

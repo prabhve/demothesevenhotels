@@ -124,27 +124,27 @@ export const QuickBookingCard: React.FC<QuickBookingCardProps> = ({ onCheckAvail
             </div>
 
             {/* CTAs Row */}
-            <div className="sm:col-span-2 lg:col-span-4 pt-3 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-[#F0EBE3]">
+            <div className="sm:col-span-2 lg:col-span-4 pt-3 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 border-t border-[#F0EBE3]">
               <p className="text-xs text-[#7A7168] italic font-serif">
                 *{bookingSettings.rateDisclaimer}
               </p>
 
-              <div className="flex items-center gap-3 w-full sm:w-auto">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 w-full md:w-auto">
                 <button
                   type="button"
                   onClick={handleWhatsAppBooking}
-                  className="w-full sm:w-auto px-4 py-2.5 text-xs uppercase tracking-wider font-semibold text-[#181412] bg-[#E9E4DC] hover:bg-[#DDD5C9] active:bg-[#D0C6B8] rounded-lg transition-colors flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer"
+                  className="w-full sm:w-auto px-4 py-2.5 text-xs uppercase tracking-wider font-semibold text-[#181412] bg-[#E9E4DC] hover:bg-[#DDD5C9] active:bg-[#D0C6B8] rounded-lg transition-colors flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer shrink-0"
                   title="Send booking enquiry directly on WhatsApp"
                 >
-                  <MessageCircle className="w-4 h-4 text-[#25D366]" />
+                  <MessageCircle className="w-4 h-4 text-[#25D366] shrink-0" />
                   <span>Book via WhatsApp</span>
                 </button>
 
                 <button
                   type="submit"
-                  className="w-full sm:w-auto px-6 py-2.5 text-xs uppercase tracking-wider font-semibold text-[#181412] bg-[#C89B6A] hover:bg-[#D8AE7F] active:bg-[#B47A46] rounded-lg shadow-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer"
+                  className="w-full sm:w-auto px-6 py-2.5 text-xs uppercase tracking-wider font-semibold text-[#181412] bg-[#C89B6A] hover:bg-[#D8AE7F] active:bg-[#B47A46] rounded-lg shadow-sm transition-all flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer shrink-0"
                 >
-                  <Search className="w-4 h-4" />
+                  <Search className="w-4 h-4 shrink-0" />
                   <span>Check Availability</span>
                 </button>
               </div>

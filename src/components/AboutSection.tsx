@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHotelData } from '../context/HotelDataContext';
 import { CheckCircle2, MapPin, Phone, Shield } from 'lucide-react';
-import { ScrollReveal } from './ScrollReveal';
+import { RevealOnScroll } from './RevealOnScroll';
 
 export const AboutSection: React.FC = () => {
   const { hotelInfo, contactInfo } = useHotelData();
@@ -12,7 +12,7 @@ export const AboutSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Column: Visual Architectural Showcase Container */}
           <div className="lg:col-span-5 relative">
-            <ScrollReveal direction="right" delay={150}>
+            <RevealOnScroll direction="right" delay={150}>
               <div className="relative rounded-2xl overflow-hidden border border-[#E5DFD5] bg-[#F5F2EB] p-8 shadow-sm">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[#B47A46]/10 rounded-full blur-2xl pointer-events-none" />
                 
@@ -66,12 +66,12 @@ export const AboutSection: React.FC = () => {
                   <div className="text-xs font-semibold">{contactInfo.primaryPhone}</div>
                 </div>
               </div>
-            </ScrollReveal>
+            </RevealOnScroll>
           </div>
 
           {/* Right Column: Editorial Copy */}
           <div className="lg:col-span-7">
-            <ScrollReveal direction="left" delay={250}>
+            <RevealOnScroll direction="left" delay={250}>
               <div className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#9E6738] font-semibold mb-3">
                 <span>About The Seven's</span>
                 <span aria-hidden="true">·</span>
@@ -103,7 +103,7 @@ export const AboutSection: React.FC = () => {
                   <span>24-Hour Front Desk Support</span>
                 </div>
               </div>
-            </ScrollReveal>
+            </RevealOnScroll>
           </div>
         </div>
       </div>

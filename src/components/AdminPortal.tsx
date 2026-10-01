@@ -1,9 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useHotelData } from '../context/HotelDataContext';
-import { fileUploadService, UploadedMediaItem } from '../services/fileUploadService';
+import { fileUploadService } from '../services/fileUploadService';
 import {
   X,
-  Save,
   RotateCcw,
   Download,
   Upload,
@@ -29,8 +28,9 @@ import {
   BookOpen,
   Edit3,
   Loader2,
+  Menu,
 } from 'lucide-react';
-import { Room, Amenity, NearbyAttraction, Testimonial, GalleryItem, MenuItem } from '../data/hotelData';
+import { Room, Amenity, Testimonial, GalleryItem, MenuItem } from '../data/hotelData';
 
 interface AdminPortalProps {
   isOpen: boolean;
@@ -56,7 +56,6 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
   const {
     hotelInfo,
     contactInfo,
-    bookingSettings,
     rooms,
     amenities,
     diningInfo,
@@ -67,7 +66,6 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
     seoSettings,
     updateHotelInfo,
     updateContactInfo,
-    updateBookingSettings,
     updateRooms,
     updateAmenities,
     updateDiningInfo,
@@ -93,6 +91,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
     | 'seo'
   >('rooms');
 
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [galleryCategoryFilter, setGalleryCategoryFilter] = useState<string>('All');
   const [uploadingProgress, setUploadingProgress] = useState<number | null>(null);
@@ -126,7 +125,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
         setUploadingProgress(percent);
       });
       onSuccess(mediaItem.url);
-      showToast(`Uploaded "${mediaItem.filename}" (${mediaItem.formattedSize}) successfully!`);
+      showToast(`Uploaded "${mediaItem.filename}" successfully!`);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Upload failed.';
       alert(msg);
@@ -266,41 +265,62 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
     setEditingDish(null);
   };
 
+  const navItems = [
+    { id: 'rooms', label: 'Rooms & Tariffs', count: rooms.length, icon: BedDouble },
+    { id: 'dining', label: 'Dining & Menus', count: diningInfo.menuItems?.length || 0, icon: Utensils },
+    { id: 'general', label: 'Property & Contacts', icon: Building },
+    { id: 'gallery', label: 'Media Gallery', count: galleryItems.length, icon: ImageIcon },
+    { id: 'facilities', label: 'Facilities', count: amenities.length, icon: Sparkles },
+    { id: 'testimonials', label: 'Guest Reviews', count: testimonials.length, icon: MessageSquare },
+    { id: 'nearby', label: 'Varanasi Attractions', icon: MapPin },
+    { id: 'policies', label: 'Hotel Policies', icon: FileText },
+    { id: 'seo', label: 'SEO & Metadata', icon: Search },
+  ] as const;
+
   return (
     <div className="fixed inset-0 z-50 bg-[#120F0E] text-[#F5F2EB] flex flex-col font-sans overflow-hidden animate-fadeIn">
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed top-5 right-5 z-60 bg-[#25D366] text-[#120F0E] font-semibold px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2 text-sm border border-white/20 animate-bounce">
-          <CheckCircle className="w-5 h-5" />
+        <div className="fixed top-5 right-5 z-70 bg-[#25D366] text-[#120F0E] font-semibold px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl shadow-2xl flex items-center gap-2 text-xs sm:text-sm border border-white/20 animate-bounce">
+          <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}
 
-      {/* Top Header Navigation Bar */}
-      <header className="bg-[#1C1816] border-b border-[#B47A46]/30 px-6 py-4 flex items-center justify-between shrink-0 shadow-md">
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-lg bg-[#C89B6A] text-[#120F0E] font-serif font-bold text-xl flex items-center justify-center shadow-xs">
+      {/* Top Header Navigation Bar (Responsive on Mobile) */}
+      <header className="bg-[#1C1816] border-b border-[#B47A46]/30 px-3 sm:px-6 py-3 sm:py-4 flex items-center justify-between shrink-0 shadow-md">
+        <div className="flex items-center gap-2.5 sm:gap-4 min-w-0">
+          {/* Mobile Menu Toggle Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 text-[#D8CEBF] hover:text-white hover:bg-white/10 rounded-lg shrink-0 cursor-pointer"
+            aria-label="Toggle navigation menu"
+          >
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5 text-[#C89B6A]" />}
+          </button>
+
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-[#C89B6A] text-[#120F0E] font-serif font-bold text-base sm:text-xl flex items-center justify-center shrink-0 shadow-xs">
             7
           </div>
-          <div>
+          <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <h1 className="font-serif text-lg sm:text-xl text-[#FAF7F2] font-semibold uppercase tracking-wider">
-                The Seven's Hotel — Management CMS
+              <h1 className="font-serif text-sm sm:text-lg lg:text-xl text-[#FAF7F2] font-semibold uppercase tracking-wider truncate">
+                The Seven's CMS
               </h1>
-              <span className="hidden sm:inline-block text-[11px] bg-[#25D366]/20 text-[#25D366] border border-[#25D366]/40 px-2.5 py-0.5 rounded-full font-medium">
-                Live Sync Active
+              <span className="hidden lg:inline-block text-[10px] bg-[#25D366]/20 text-[#25D366] border border-[#25D366]/40 px-2 py-0.5 rounded-full font-medium">
+                Live Sync
               </span>
             </div>
-            <p className="text-xs text-[#A89C8F]">
-              Comprehensive form-based CRUD suite with simulated cloud media upload workflow
+            <p className="hidden sm:block text-xs text-[#A89C8F] truncate">
+              Direct property editor for rooms, menus, media & tariffs
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
           <button
             onClick={handleExport}
-            className="hidden md:inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold bg-[#2A231F] hover:bg-[#352D28] text-[#D8CEBF] rounded-lg border border-[#B47A46]/30 transition-colors cursor-pointer"
+            className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-[#2A231F] hover:bg-[#352D28] text-[#D8CEBF] rounded-lg border border-[#B47A46]/30 transition-colors cursor-pointer"
             title="Export full backup configuration"
           >
             <Download className="w-3.5 h-3.5 text-[#C89B6A]" />
@@ -312,159 +332,100 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
               onClose();
               showToast('Changes active on live website!');
             }}
-            className="px-4 py-2 text-xs uppercase tracking-wider font-semibold bg-[#C89B6A] hover:bg-[#D8AE7F] text-[#120F0E] rounded-lg shadow-sm transition-all flex items-center gap-1.5 cursor-pointer"
+            className="px-2.5 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs uppercase tracking-wider font-semibold bg-[#C89B6A] hover:bg-[#D8AE7F] text-[#120F0E] rounded-lg shadow-sm transition-all flex items-center gap-1 sm:gap-1.5 cursor-pointer shrink-0"
           >
-            <Eye className="w-3.5 h-3.5" />
-            <span>View Live Site</span>
+            <Eye className="w-3.5 h-3.5 shrink-0" />
+            <span>View Site</span>
           </button>
 
           <button
             onClick={onClose}
-            className="p-2 text-[#D8CEBF] hover:text-white hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
+            className="p-1.5 sm:p-2 text-[#D8CEBF] hover:text-white hover:bg-white/10 rounded-lg transition-colors cursor-pointer shrink-0"
             aria-label="Exit CMS Portal"
           >
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
         </div>
       </header>
 
-      {/* Main CMS Layout (Sidebar + Content Workspace) */}
-      <div className="flex-1 flex overflow-hidden">
-        {/* Sidebar */}
-        <aside className="w-64 bg-[#181412] border-r border-[#B47A46]/20 flex flex-col justify-between shrink-0 overflow-y-auto">
+      {/* Mobile Horizontal Navigation Tabs (Quick Scrollable Bar) */}
+      <div className="md:hidden bg-[#181412] border-b border-[#B47A46]/20 px-2 py-2 flex items-center gap-1.5 overflow-x-auto shrink-0 scrollbar-none">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = activeTab === item.id;
+          return (
+            <button
+              key={item.id}
+              onClick={() => {
+                setActiveTab(item.id);
+                setMobileMenuOpen(false);
+              }}
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap flex items-center gap-1.5 transition-colors shrink-0 ${
+                isActive
+                  ? 'bg-[#C89B6A] text-[#120F0E] font-semibold shadow-xs'
+                  : 'bg-[#251F1C] text-[#D8CEBF] hover:text-white'
+              }`}
+            >
+              <Icon className="w-3.5 h-3.5 shrink-0" />
+              <span>{item.label}</span>
+              {'count' in item && <span className="opacity-70 text-[10px]">({item.count})</span>}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Main CMS Layout (Sidebar + Workspace) */}
+      <div className="flex-1 flex overflow-hidden relative">
+        {/* Desktop Sidebar / Mobile Slide-Over Drawer */}
+        <aside
+          className={`
+            fixed md:relative inset-y-0 left-0 z-40 md:z-auto
+            w-64 bg-[#181412] border-r border-[#B47A46]/20 flex flex-col justify-between shrink-0 overflow-y-auto
+            transition-transform duration-300 ease-in-out
+            ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+          `}
+        >
           <div className="p-3 space-y-1">
-            <div className="px-3 py-2 text-[10px] uppercase tracking-[0.2em] text-[#C89B6A] font-semibold">
-              Management Suites
+            <div className="px-3 py-2 text-[10px] uppercase tracking-[0.2em] text-[#C89B6A] font-semibold flex items-center justify-between">
+              <span>Management Suites</span>
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="md:hidden text-[#D8CEBF] hover:text-white p-1"
+              >
+                <X className="w-4 h-4" />
+              </button>
             </div>
 
-            <button
-              onClick={() => setActiveTab('rooms')}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-medium transition-colors text-left cursor-pointer ${
-                activeTab === 'rooms'
-                  ? 'bg-[#C89B6A] text-[#120F0E] font-semibold shadow-xs'
-                  : 'text-[#D8CEBF] hover:bg-[#251F1C] hover:text-[#FAF7F2]'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <BedDouble className="w-4 h-4" />
-                <span>Rooms & Tariffs</span>
-              </div>
-              <span className="text-[11px] opacity-80 font-mono">{rooms.length}</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('dining')}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-medium transition-colors text-left cursor-pointer ${
-                activeTab === 'dining'
-                  ? 'bg-[#C89B6A] text-[#120F0E] font-semibold shadow-xs'
-                  : 'text-[#D8CEBF] hover:bg-[#251F1C] hover:text-[#FAF7F2]'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <Utensils className="w-4 h-4" />
-                <span>Flavours Dining & Menus</span>
-              </div>
-              <span className="text-[11px] opacity-80 font-mono">
-                {diningInfo.menuItems ? diningInfo.menuItems.length : 0}
-              </span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('general')}
-              className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium transition-colors text-left cursor-pointer ${
-                activeTab === 'general'
-                  ? 'bg-[#C89B6A] text-[#120F0E] font-semibold shadow-xs'
-                  : 'text-[#D8CEBF] hover:bg-[#251F1C] hover:text-[#FAF7F2]'
-              }`}
-            >
-              <Building className="w-4 h-4" />
-              <span>Property & Contacts</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('gallery')}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-medium transition-colors text-left cursor-pointer ${
-                activeTab === 'gallery'
-                  ? 'bg-[#C89B6A] text-[#120F0E] font-semibold shadow-xs'
-                  : 'text-[#D8CEBF] hover:bg-[#251F1C] hover:text-[#FAF7F2]'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <ImageIcon className="w-4 h-4" />
-                <span>Media Gallery</span>
-              </div>
-              <span className="text-[11px] opacity-80 font-mono">{galleryItems.length}</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('facilities')}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-medium transition-colors text-left cursor-pointer ${
-                activeTab === 'facilities'
-                  ? 'bg-[#C89B6A] text-[#120F0E] font-semibold shadow-xs'
-                  : 'text-[#D8CEBF] hover:bg-[#251F1C] hover:text-[#FAF7F2]'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <Sparkles className="w-4 h-4" />
-                <span>Facilities</span>
-              </div>
-              <span className="text-[11px] opacity-80 font-mono">{amenities.length}</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('testimonials')}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-medium transition-colors text-left cursor-pointer ${
-                activeTab === 'testimonials'
-                  ? 'bg-[#C89B6A] text-[#120F0E] font-semibold shadow-xs'
-                  : 'text-[#D8CEBF] hover:bg-[#251F1C] hover:text-[#FAF7F2]'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <MessageSquare className="w-4 h-4" />
-                <span>Guest Reviews</span>
-              </div>
-              <span className="text-[11px] opacity-80 font-mono">{testimonials.length}</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('nearby')}
-              className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium transition-colors text-left cursor-pointer ${
-                activeTab === 'nearby'
-                  ? 'bg-[#C89B6A] text-[#120F0E] font-semibold shadow-xs'
-                  : 'text-[#D8CEBF] hover:bg-[#251F1C] hover:text-[#FAF7F2]'
-              }`}
-            >
-              <MapPin className="w-4 h-4" />
-              <span>Varanasi Attractions</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('policies')}
-              className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium transition-colors text-left cursor-pointer ${
-                activeTab === 'policies'
-                  ? 'bg-[#C89B6A] text-[#120F0E] font-semibold shadow-xs'
-                  : 'text-[#D8CEBF] hover:bg-[#251F1C] hover:text-[#FAF7F2]'
-              }`}
-            >
-              <FileText className="w-4 h-4" />
-              <span>Hotel Policies</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('seo')}
-              className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium transition-colors text-left cursor-pointer ${
-                activeTab === 'seo'
-                  ? 'bg-[#C89B6A] text-[#120F0E] font-semibold shadow-xs'
-                  : 'text-[#D8CEBF] hover:bg-[#251F1C] hover:text-[#FAF7F2]'
-              }`}
-            >
-              <Search className="w-4 h-4" />
-              <span>SEO & Metadata</span>
-            </button>
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    setActiveTab(item.id);
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-medium transition-colors text-left cursor-pointer ${
+                    isActive
+                      ? 'bg-[#C89B6A] text-[#120F0E] font-semibold shadow-xs'
+                      : 'text-[#D8CEBF] hover:bg-[#251F1C] hover:text-[#FAF7F2]'
+                  }`}
+                >
+                  <div className="flex items-center gap-3 truncate">
+                    <Icon className="w-4 h-4 shrink-0" />
+                    <span className="truncate">{item.label}</span>
+                  </div>
+                  {'count' in item && (
+                    <span className="text-[11px] opacity-80 font-mono shrink-0 ml-1">{item.count}</span>
+                  )}
+                </button>
+              );
+            })}
           </div>
 
           {/* Bottom Backup Controls */}
-          <div className="p-4 border-t border-[#B47A46]/20 space-y-2">
+          <div className="p-4 border-t border-[#B47A46]/20 space-y-2 shrink-0">
             <button
               onClick={() => {
                 if (window.confirm('Reset all CMS content to verified property defaults?')) {
@@ -491,14 +452,24 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
           </div>
         </aside>
 
-        {/* Workspace Area */}
-        <main className="flex-1 bg-[#151210] p-6 lg:p-10 overflow-y-auto">
+        {/* Backdrop for mobile drawer */}
+        {mobileMenuOpen && (
+          <div
+            onClick={() => setMobileMenuOpen(false)}
+            className="fixed inset-0 z-30 bg-black/60 backdrop-blur-xs md:hidden"
+          />
+        )}
+
+        {/* Workspace Area (Fully Mobile-Responsive) */}
+        <main className="flex-1 w-full min-w-0 bg-[#151210] p-4 sm:p-6 lg:p-10 overflow-y-auto overflow-x-hidden">
           {/* TAB 1: ROOMS & TARIFFS CRUD */}
           {activeTab === 'rooms' && (
-            <div className="max-w-5xl space-y-8 animate-fadeIn">
+            <div className="max-w-5xl mx-auto space-y-6 sm:space-y-8 animate-fadeIn">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <h2 className="font-serif text-2xl sm:text-3xl text-[#FAF7F2]">Room Listings & Tariffs Suite</h2>
+                  <h2 className="font-serif text-xl sm:text-2xl lg:text-3xl text-[#FAF7F2] break-words">
+                    Room Listings & Tariffs Suite
+                  </h2>
                   <p className="text-xs text-[#A89C8F] mt-1">
                     Manage categories, tariffs, media uploads via Mock FileUpload service, and amenity checklists.
                   </p>
@@ -526,37 +497,37 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                     });
                     setRoomModalOpen(true);
                   }}
-                  className="px-4 py-2.5 bg-[#C89B6A] hover:bg-[#D8AE7F] text-[#120F0E] font-semibold text-xs rounded-lg flex items-center gap-1.5 cursor-pointer shadow-sm"
+                  className="w-full sm:w-auto px-4 py-2.5 bg-[#C89B6A] hover:bg-[#D8AE7F] text-[#120F0E] font-semibold text-xs rounded-lg flex items-center justify-center gap-1.5 cursor-pointer shadow-sm shrink-0"
                 >
-                  <Plus className="w-4 h-4" />
+                  <Plus className="w-4 h-4 shrink-0" />
                   <span>Create Room Category</span>
                 </button>
               </div>
 
               {/* Quick Pricing Adjuster */}
-              <div className="bg-[#1C1816] p-4 rounded-xl border border-[#B47A46]/20 flex flex-wrap items-center justify-between gap-4">
+              <div className="bg-[#1C1816] p-4 rounded-xl border border-[#B47A46]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
-                  <Sliders className="w-4 h-4 text-[#C89B6A]" />
+                  <Sliders className="w-4 h-4 text-[#C89B6A] shrink-0" />
                   <span className="text-xs font-semibold text-[#D8CEBF]">Quick Pricing Adjuster:</span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <button
                     onClick={() => adjustTariffs(10)}
-                    className="px-3 py-1.5 text-xs bg-[#251F1C] hover:bg-[#302723] text-[#C89B6A] border border-[#B47A46]/30 rounded-lg cursor-pointer"
+                    className="flex-1 sm:flex-none px-3 py-1.5 text-xs bg-[#251F1C] hover:bg-[#302723] text-[#C89B6A] border border-[#B47A46]/30 rounded-lg cursor-pointer text-center"
                   >
                     +10% Markup
                   </button>
                   <button
                     onClick={() => adjustTariffs(-10)}
-                    className="px-3 py-1.5 text-xs bg-[#251F1C] hover:bg-[#302723] text-[#C89B6A] border border-[#B47A46]/30 rounded-lg cursor-pointer"
+                    className="flex-1 sm:flex-none px-3 py-1.5 text-xs bg-[#251F1C] hover:bg-[#302723] text-[#C89B6A] border border-[#B47A46]/30 rounded-lg cursor-pointer text-center"
                   >
                     -10% Discount
                   </button>
                   <button
                     onClick={() => adjustTariffs(20)}
-                    className="px-3 py-1.5 text-xs bg-[#251F1C] hover:bg-[#302723] text-[#C89B6A] border border-[#B47A46]/30 rounded-lg cursor-pointer"
+                    className="flex-1 sm:flex-none px-3 py-1.5 text-xs bg-[#251F1C] hover:bg-[#302723] text-[#C89B6A] border border-[#B47A46]/30 rounded-lg cursor-pointer text-center"
                   >
-                    +20% Peak Season
+                    +20% Peak
                   </button>
                 </div>
               </div>
@@ -569,14 +540,16 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                     className="bg-[#1C1816] rounded-xl border border-[#B47A46]/25 overflow-hidden shadow-md"
                   >
                     {/* Room Header */}
-                    <div className="p-5 bg-[#201B18] border-b border-[#B47A46]/20 flex flex-wrap items-center justify-between gap-4">
-                      <div className="flex items-center gap-3">
-                        <span className="text-xs font-serif text-[#C89B6A] font-bold px-2.5 py-1 bg-[#151210] rounded border border-[#B47A46]/30">
+                    <div className="p-4 sm:p-5 bg-[#201B18] border-b border-[#B47A46]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div className="flex items-start sm:items-center gap-3 min-w-0">
+                        <span className="text-xs font-serif text-[#C89B6A] font-bold px-2 py-1 bg-[#151210] rounded border border-[#B47A46]/30 shrink-0">
                           0{idx + 1}
                         </span>
-                        <div>
-                          <h3 className="font-serif text-lg text-[#FAF7F2] font-semibold">{room.name}</h3>
-                          <div className="text-xs text-[#A89C8F] flex items-center gap-2 mt-0.5">
+                        <div className="min-w-0">
+                          <h3 className="font-serif text-base sm:text-lg text-[#FAF7F2] font-semibold truncate">
+                            {room.name}
+                          </h3>
+                          <div className="text-xs text-[#A89C8F] flex flex-wrap items-center gap-2 mt-0.5">
                             <span className="font-mono font-medium text-white">₹{room.basePrice.toLocaleString()}</span>
                             <span>·</span>
                             <span>{room.bedType}</span>
@@ -596,16 +569,16 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                       </div>
 
                       {/* Action buttons */}
-                      <div className="flex items-center gap-1.5">
+                      <div className="flex items-center gap-1.5 self-end sm:self-auto shrink-0">
                         <button
                           onClick={() => {
                             setEditingRoom({ ...room });
                             setRoomModalOpen(true);
                           }}
-                          className="px-3 py-1.5 text-xs bg-[#C89B6A]/20 hover:bg-[#C89B6A]/30 text-[#FAF7F2] border border-[#C89B6A]/40 rounded-lg flex items-center gap-1.5 cursor-pointer"
+                          className="px-2.5 sm:px-3 py-1.5 text-xs bg-[#C89B6A]/20 hover:bg-[#C89B6A]/30 text-[#FAF7F2] border border-[#C89B6A]/40 rounded-lg flex items-center gap-1.5 cursor-pointer"
                         >
                           <Edit3 className="w-3.5 h-3.5 text-[#C89B6A]" />
-                          <span>Edit Details</span>
+                          <span>Edit</span>
                         </button>
 
                         <button
@@ -659,9 +632,9 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                     </div>
 
                     {/* Room Media Upload Section */}
-                    <div className="p-5 border-t border-[#B47A46]/15 bg-[#1C1816] space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
-                        <div className="md:col-span-4 aspect-[4/3] rounded-lg overflow-hidden bg-black border border-[#B47A46]/30 relative flex items-center justify-center">
+                    <div className="p-4 sm:p-5 border-t border-[#B47A46]/15 bg-[#1C1816] space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-5 items-center">
+                        <div className="md:col-span-4 aspect-[4/3] rounded-lg overflow-hidden bg-black border border-[#B47A46]/30 relative flex items-center justify-center max-w-sm mx-auto w-full">
                           {room.imageUrl ? (
                             <img
                               src={room.imageUrl}
@@ -690,7 +663,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                             Direct Photo / Video Upload (FileUpload Service)
                           </span>
                           <div className="flex flex-wrap items-center gap-2">
-                            <label className="px-4 py-2 bg-[#C89B6A] hover:bg-[#D8AE7F] text-[#120F0E] font-semibold text-xs rounded-lg cursor-pointer flex items-center gap-2 shadow-xs">
+                            <label className="w-full sm:w-auto px-4 py-2 bg-[#C89B6A] hover:bg-[#D8AE7F] text-[#120F0E] font-semibold text-xs rounded-lg cursor-pointer flex items-center justify-center gap-2 shadow-xs">
                               <Upload className="w-3.5 h-3.5" />
                               <span>Upload Photo from Device</span>
                               <input
@@ -718,7 +691,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                                   updateRooms(updated);
                                   showToast('Reset to placeholder.');
                                 }}
-                                className="px-3 py-2 text-xs bg-[#251F1C] hover:bg-red-950 text-red-300 border border-red-900/40 rounded-lg cursor-pointer"
+                                className="w-full sm:w-auto px-3 py-2 text-xs bg-[#251F1C] hover:bg-red-950 text-red-300 border border-red-900/40 rounded-lg cursor-pointer text-center"
                               >
                                 Remove Custom Photo
                               </button>
@@ -740,10 +713,12 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
 
           {/* TAB 2: DINING CMS & MENUS */}
           {activeTab === 'dining' && (
-            <div className="max-w-5xl space-y-8 animate-fadeIn">
+            <div className="max-w-5xl mx-auto space-y-6 sm:space-y-8 animate-fadeIn">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <h2 className="font-serif text-2xl sm:text-3xl text-[#FAF7F2]">Flavours at The Seven's CMS & Menus</h2>
+                  <h2 className="font-serif text-xl sm:text-2xl lg:text-3xl text-[#FAF7F2] break-words">
+                    Flavours at The Seven's CMS & Menus
+                  </h2>
                   <p className="text-xs text-[#A89C8F] mt-1">
                     Manage dining descriptions, banner imagery, service timings, and in-house restaurant menu items.
                   </p>
@@ -762,16 +737,16 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                     });
                     setDishModalOpen(true);
                   }}
-                  className="px-4 py-2.5 bg-[#C89B6A] hover:bg-[#D8AE7F] text-[#120F0E] font-semibold text-xs rounded-lg flex items-center gap-1.5 cursor-pointer shadow-sm"
+                  className="w-full sm:w-auto px-4 py-2.5 bg-[#C89B6A] hover:bg-[#D8AE7F] text-[#120F0E] font-semibold text-xs rounded-lg flex items-center justify-center gap-1.5 cursor-pointer shadow-sm shrink-0"
                 >
-                  <Plus className="w-4 h-4" />
+                  <Plus className="w-4 h-4 shrink-0" />
                   <span>Add Menu Dish</span>
                 </button>
               </div>
 
               {/* Dining General Settings Form */}
-              <div className="bg-[#1C1816] p-6 rounded-xl border border-[#B47A46]/20 space-y-5">
-                <h3 className="font-serif text-lg text-white font-semibold flex items-center gap-2">
+              <div className="bg-[#1C1816] p-4 sm:p-6 rounded-xl border border-[#B47A46]/20 space-y-5">
+                <h3 className="font-serif text-base sm:text-lg text-white font-semibold flex items-center gap-2">
                   <Utensils className="w-4 h-4 text-[#C89B6A]" />
                   <span>Restaurant Overview & Atmosphere</span>
                 </h3>
@@ -827,14 +802,14 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                     )}
                   </div>
 
-                  <div className="space-y-1 flex-1">
+                  <div className="space-y-1 flex-1 text-center sm:text-left">
                     <span className="text-xs font-semibold text-[#FAF7F2] block">
                       Dining Restaurant Photo Asset
                     </span>
                     <p className="text-[11px] text-[#A89C8F]">
                       Upload an authentic photo of the indoor dining hall or buffet area.
                     </p>
-                    <div className="flex items-center gap-2 pt-1">
+                    <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 pt-1">
                       <label className="px-3 py-1.5 text-xs bg-[#C89B6A] text-[#120F0E] font-semibold rounded-md cursor-pointer flex items-center gap-1.5">
                         <Upload className="w-3 h-3" />
                         <span>Upload Photo</span>
@@ -901,14 +876,14 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
               {/* Menu Dishes List */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-serif text-xl text-[#FAF7F2] font-semibold flex items-center gap-2">
+                  <h3 className="font-serif text-lg sm:text-xl text-[#FAF7F2] font-semibold flex items-center gap-2">
                     <BookOpen className="w-4 h-4 text-[#C89B6A]" />
                     <span>In-House Restaurant Menu Dishes</span>
                   </h3>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {(diningInfo.menuItems || []).map((dish, idx) => (
+                  {(diningInfo.menuItems || []).map((dish) => (
                     <div
                       key={dish.id}
                       className="bg-[#1C1816] p-4 rounded-xl border border-[#B47A46]/20 flex flex-col justify-between hover:border-[#B47A46]/40 transition-colors"
@@ -919,7 +894,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                             {dish.name}
                           </h4>
                           {dish.price && (
-                            <span className="font-mono text-xs font-semibold text-[#C89B6A] bg-[#251F1C] px-2 py-0.5 rounded">
+                            <span className="font-mono text-xs font-semibold text-[#C89B6A] bg-[#251F1C] px-2 py-0.5 rounded shrink-0">
                               ₹{dish.price}
                             </span>
                           )}
@@ -966,15 +941,17 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
 
           {/* TAB 3: PROPERTY & CONTACT DETAILS */}
           {activeTab === 'general' && (
-            <div className="max-w-4xl space-y-8 animate-fadeIn">
+            <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8 animate-fadeIn">
               <div>
-                <h2 className="font-serif text-2xl sm:text-3xl text-[#FAF7F2]">Property & Contact Details Form</h2>
+                <h2 className="font-serif text-xl sm:text-2xl lg:text-3xl text-[#FAF7F2] break-words">
+                  Property & Contact Details Form
+                </h2>
                 <p className="text-xs text-[#A89C8F] mt-1">
                   Manage core address, Google listing phones, email and check-in timings.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 bg-[#1C1816] p-6 rounded-xl border border-[#B47A46]/20">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 bg-[#1C1816] p-4 sm:p-6 rounded-xl border border-[#B47A46]/20">
                 <div className="space-y-1.5">
                   <label className="text-xs uppercase tracking-wider text-[#C89B6A]">Hotel Name</label>
                   <input
@@ -1080,16 +1057,18 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
 
           {/* TAB 4: GALLERY */}
           {activeTab === 'gallery' && (
-            <div className="max-w-5xl space-y-8 animate-fadeIn">
+            <div className="max-w-5xl mx-auto space-y-6 sm:space-y-8 animate-fadeIn">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <h2 className="font-serif text-2xl sm:text-3xl text-[#FAF7F2]">Media Gallery Suite</h2>
+                  <h2 className="font-serif text-xl sm:text-2xl lg:text-3xl text-[#FAF7F2] break-words">
+                    Media Gallery Suite
+                  </h2>
                   <p className="text-xs text-[#A89C8F] mt-1">
                     Upload photos using Mock FileUpload service, organize into categories, and edit captions.
                   </p>
                 </div>
 
-                <label className="px-4 py-2.5 bg-[#C89B6A] hover:bg-[#D8AE7F] text-[#120F0E] font-semibold text-xs rounded-lg flex items-center gap-2 cursor-pointer shadow-sm">
+                <label className="w-full sm:w-auto px-4 py-2.5 bg-[#C89B6A] hover:bg-[#D8AE7F] text-[#120F0E] font-semibold text-xs rounded-lg flex items-center justify-center gap-2 cursor-pointer shadow-sm shrink-0">
                   <Upload className="w-4 h-4" />
                   <span>Batch Upload Photos</span>
                   <input
@@ -1103,12 +1082,12 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
               </div>
 
               {/* Gallery Filter & Grid */}
-              <div className="bg-[#1C1816] p-4 rounded-xl border border-[#B47A46]/20 flex items-center gap-2 overflow-x-auto">
+              <div className="bg-[#1C1816] p-3 sm:p-4 rounded-xl border border-[#B47A46]/20 flex items-center gap-1.5 overflow-x-auto scrollbar-none">
                 {['All', 'Exterior', 'Rooms', 'Reception', 'Interiors', 'Dining', 'Surroundings'].map((cat) => (
                   <button
                     key={cat}
                     onClick={() => setGalleryCategoryFilter(cat)}
-                    className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer ${
+                    className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer shrink-0 ${
                       galleryCategoryFilter === cat
                         ? 'bg-[#C89B6A] text-[#120F0E] font-semibold'
                         : 'bg-[#251F1C] text-[#D8CEBF] hover:text-white'
@@ -1119,10 +1098,10 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                 ))}
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {galleryItems
                   .filter((item) => galleryCategoryFilter === 'All' || item.category === galleryCategoryFilter)
-                  .map((item, idx) => (
+                  .map((item) => (
                     <div
                       key={item.id}
                       className="bg-[#1C1816] rounded-xl overflow-hidden border border-[#B47A46]/25 flex flex-col justify-between shadow-md"
@@ -1222,9 +1201,9 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
 
           {/* TAB 5: FACILITIES */}
           {activeTab === 'facilities' && (
-            <div className="max-w-4xl space-y-8 animate-fadeIn">
-              <div className="flex items-center justify-between">
-                <h2 className="font-serif text-2xl text-[#FAF7F2]">Verified Facilities & Amenities</h2>
+            <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8 animate-fadeIn">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <h2 className="font-serif text-xl sm:text-2xl text-[#FAF7F2]">Verified Facilities & Amenities</h2>
                 <button
                   onClick={() => {
                     const newAmenity: Amenity = {
@@ -1236,7 +1215,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                     updateAmenities([...amenities, newAmenity]);
                     showToast('New facility added!');
                   }}
-                  className="px-4 py-2 bg-[#C89B6A] hover:bg-[#D8AE7F] text-[#120F0E] font-semibold text-xs rounded-lg flex items-center gap-1.5 cursor-pointer"
+                  className="w-full sm:w-auto px-4 py-2 bg-[#C89B6A] hover:bg-[#D8AE7F] text-[#120F0E] font-semibold text-xs rounded-lg flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <Plus className="w-4 h-4" />
                   <span>Add Facility</span>
@@ -1286,9 +1265,9 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
 
           {/* TAB 6: TESTIMONIALS */}
           {activeTab === 'testimonials' && (
-            <div className="max-w-4xl space-y-8 animate-fadeIn">
-              <div className="flex items-center justify-between">
-                <h2 className="font-serif text-2xl text-[#FAF7F2]">Guest Reviews CMS</h2>
+            <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8 animate-fadeIn">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <h2 className="font-serif text-xl sm:text-2xl text-[#FAF7F2]">Guest Reviews CMS</h2>
                 <button
                   onClick={() => {
                     const newReview: Testimonial = {
@@ -1303,7 +1282,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                     updateTestimonials([...testimonials, newReview]);
                     showToast('New review added!');
                   }}
-                  className="px-4 py-2 bg-[#C89B6A] hover:bg-[#D8AE7F] text-[#120F0E] font-semibold text-xs rounded-lg flex items-center gap-1.5 cursor-pointer"
+                  className="w-full sm:w-auto px-4 py-2 bg-[#C89B6A] hover:bg-[#D8AE7F] text-[#120F0E] font-semibold text-xs rounded-lg flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <Plus className="w-4 h-4" />
                   <span>Add Review</span>
@@ -1312,7 +1291,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {testimonials.map((t, idx) => (
-                  <div key={t.id} className="bg-[#1C1816] p-5 rounded-xl border border-[#B47A46]/20 space-y-3">
+                  <div key={t.id} className="bg-[#1C1816] p-4 sm:p-5 rounded-xl border border-[#B47A46]/20 space-y-3">
                     <div className="flex items-center justify-between">
                       <input
                         type="text"
@@ -1364,8 +1343,8 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
 
           {/* TAB 7: NEARBY ATTRACTIONS */}
           {activeTab === 'nearby' && (
-            <div className="max-w-4xl space-y-8 animate-fadeIn">
-              <h2 className="font-serif text-2xl text-[#FAF7F2]">Varanasi Attractions & Landmarks</h2>
+            <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8 animate-fadeIn">
+              <h2 className="font-serif text-xl sm:text-2xl text-[#FAF7F2]">Varanasi Attractions & Landmarks</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {nearbyPlaces.map((place, idx) => (
                   <div key={idx} className="bg-[#1C1816] p-4 rounded-xl border border-[#B47A46]/20 space-y-2">
@@ -1397,10 +1376,10 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
 
           {/* TAB 8: POLICIES */}
           {activeTab === 'policies' && (
-            <div className="max-w-4xl space-y-8 animate-fadeIn">
-              <h2 className="font-serif text-2xl text-[#FAF7F2]">Hotel Policies & Timings</h2>
-              <div className="bg-[#1C1816] p-6 rounded-xl border border-[#B47A46]/20 space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+            <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8 animate-fadeIn">
+              <h2 className="font-serif text-xl sm:text-2xl text-[#FAF7F2]">Hotel Policies & Timings</h2>
+              <div className="bg-[#1C1816] p-4 sm:p-6 rounded-xl border border-[#B47A46]/20 space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
                     <label className="text-xs uppercase tracking-wider text-[#C89B6A]">Check-In</label>
                     <input
@@ -1426,9 +1405,9 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
 
           {/* TAB 9: SEO & METADATA */}
           {activeTab === 'seo' && (
-            <div className="max-w-4xl space-y-8 animate-fadeIn">
-              <h2 className="font-serif text-2xl text-[#FAF7F2]">Search Engine Optimization (SEO)</h2>
-              <div className="bg-[#1C1816] p-6 rounded-xl border border-[#B47A46]/20 space-y-4">
+            <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8 animate-fadeIn">
+              <h2 className="font-serif text-xl sm:text-2xl text-[#FAF7F2]">Search Engine Optimization (SEO)</h2>
+              <div className="bg-[#1C1816] p-4 sm:p-6 rounded-xl border border-[#B47A46]/20 space-y-4">
                 <div className="space-y-1">
                   <label className="text-xs uppercase tracking-wider text-[#C89B6A]">Page Title</label>
                   <input
@@ -1455,10 +1434,10 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
 
       {/* ROOM CREATE / EDIT MODAL FORM */}
       {roomModalOpen && editingRoom && (
-        <div className="fixed inset-0 z-60 bg-black/85 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto animate-fadeIn">
-          <div className="bg-[#1C1816] text-[#FAF7F2] rounded-2xl max-w-2xl w-full border border-[#B47A46]/40 shadow-2xl overflow-hidden my-6">
-            <div className="bg-[#241F1C] p-5 flex items-center justify-between border-b border-[#B47A46]/30">
-              <h3 className="font-serif text-xl font-semibold text-white">
+        <div className="fixed inset-0 z-60 bg-black/85 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto animate-fadeIn">
+          <div className="bg-[#1C1816] text-[#FAF7F2] rounded-2xl max-w-2xl w-full border border-[#B47A46]/40 shadow-2xl overflow-hidden my-4 sm:my-6">
+            <div className="bg-[#241F1C] p-4 sm:p-5 flex items-center justify-between border-b border-[#B47A46]/30">
+              <h3 className="font-serif text-lg sm:text-xl font-semibold text-white truncate">
                 {rooms.some((r) => r.id === editingRoom.id) ? 'Edit Room Listing' : 'Create New Room Category'}
               </h3>
               <button
@@ -1466,13 +1445,13 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                   setRoomModalOpen(false);
                   setEditingRoom(null);
                 }}
-                className="p-1.5 rounded-full text-[#D8CEBF] hover:text-white hover:bg-white/10"
+                className="p-1.5 rounded-full text-[#D8CEBF] hover:text-white hover:bg-white/10 shrink-0"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleSaveRoomForm} className="p-6 space-y-4 max-h-[75vh] overflow-y-auto">
+            <form onSubmit={handleSaveRoomForm} className="p-4 sm:p-6 space-y-4 max-h-[75vh] overflow-y-auto">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label className="text-xs uppercase tracking-wider text-[#C89B6A]">Room Name *</label>
@@ -1534,7 +1513,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                 <label className="text-xs uppercase tracking-wider text-[#C89B6A] font-semibold block">
                   Included Amenities
                 </label>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {standardAmenitiesList.map((amenityName) => {
                     const isIncluded = editingRoom.amenities.includes(amenityName);
                     return (
@@ -1561,7 +1540,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                         }`}
                       >
                         <div
-                          className={`w-3.5 h-3.5 rounded flex items-center justify-center text-[10px] ${
+                          className={`w-3.5 h-3.5 rounded flex items-center justify-center text-[10px] shrink-0 ${
                             isIncluded ? 'bg-[#C89B6A] text-[#120F0E]' : 'border border-[#8F8375]'
                           }`}
                         >
@@ -1581,7 +1560,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                     setRoomModalOpen(false);
                     setEditingRoom(null);
                   }}
-                  className="px-4 py-2 text-xs text-[#D8CEBF] hover:text-white bg-[#251F1C] rounded-lg"
+                  className="px-4 py-2 text-xs text-[#D8CEBF] hover:text-white bg-[#251F1C] rounded-lg cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -1599,10 +1578,10 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
 
       {/* DISH CREATE / EDIT MODAL FORM */}
       {dishModalOpen && editingDish && (
-        <div className="fixed inset-0 z-60 bg-black/85 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto animate-fadeIn">
-          <div className="bg-[#1C1816] text-[#FAF7F2] rounded-2xl max-w-lg w-full border border-[#B47A46]/40 shadow-2xl overflow-hidden my-6">
-            <div className="bg-[#241F1C] p-5 flex items-center justify-between border-b border-[#B47A46]/30">
-              <h3 className="font-serif text-xl font-semibold text-white">
+        <div className="fixed inset-0 z-60 bg-black/85 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto animate-fadeIn">
+          <div className="bg-[#1C1816] text-[#FAF7F2] rounded-2xl max-w-lg w-full border border-[#B47A46]/40 shadow-2xl overflow-hidden my-4 sm:my-6">
+            <div className="bg-[#241F1C] p-4 sm:p-5 flex items-center justify-between border-b border-[#B47A46]/30">
+              <h3 className="font-serif text-lg sm:text-xl font-semibold text-white truncate">
                 {diningInfo.menuItems?.some((d) => d.id === editingDish.id) ? 'Edit Menu Dish' : 'Add Dish to Menu'}
               </h3>
               <button
@@ -1610,13 +1589,13 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                   setDishModalOpen(false);
                   setEditingDish(null);
                 }}
-                className="p-1.5 rounded-full text-[#D8CEBF] hover:text-white hover:bg-white/10"
+                className="p-1.5 rounded-full text-[#D8CEBF] hover:text-white hover:bg-white/10 shrink-0"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleSaveDishForm} className="p-6 space-y-4">
+            <form onSubmit={handleSaveDishForm} className="p-4 sm:p-6 space-y-4">
               <div className="space-y-1">
                 <label className="text-xs uppercase tracking-wider text-[#C89B6A]">Dish Name *</label>
                 <input
@@ -1628,7 +1607,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label className="text-xs uppercase tracking-wider text-[#C89B6A]">Category</label>
                   <select
@@ -1672,7 +1651,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({ isOpen, onClose }) => 
                     setDishModalOpen(false);
                     setEditingDish(null);
                   }}
-                  className="px-4 py-2 text-xs text-[#D8CEBF] hover:text-white bg-[#251F1C] rounded-lg"
+                  className="px-4 py-2 text-xs text-[#D8CEBF] hover:text-white bg-[#251F1C] rounded-lg cursor-pointer"
                 >
                   Cancel
                 </button>

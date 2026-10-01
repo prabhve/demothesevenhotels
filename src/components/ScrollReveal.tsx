@@ -1,81 +1,79 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
+import { useScrollReveal, UseScrollRevealOptions } from '../hooks/useScrollReveal';
 
-interface ScrollRevealProps {
+export interface ScrollRevealProps extends UseScrollRevealOptions {
   children: React.ReactNode;
   className?: string;
-  delay?: number;
-  direction?: 'up' | 'down' | 'left' | 'right' | 'none';
-  duration?: number;
+  as?: React.ElementType;
 }
 
 export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   children,
   className = '',
+  as: Component = 'div',
   delay = 0,
+  duration = 950,
   direction = 'up',
-  duration = 700,
+  distance = 28,
+  threshold = 0.15,
+  rootMargin = '0px 0px -40px 0px',
+  once = true,
 }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const domRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-            if (domRef.current) observer.unobserve(domRef.current);
-          }
-        });
-      },
-      {
-        threshold: 0.12,
-        rootMargin: '0px 0px -40px 0px',
-      }
-    );
-
-    const currentEl = domRef.current;
-    if (currentEl) {
-      observer.observe(currentEl);
-    }
-
-    return () => {
-      if (currentEl) observer.unobserve(currentEl);
-    };
-  }, []);
-
-  const getTransform = () => {
-    if (isVisible) return 'translate3d(0, 0, 0) scale(1)';
-    switch (direction) {
-      case 'up':
-        return 'translate3d(0, 32px, 0)';
-      case 'down':
-        return 'translate3d(0, -32px, 0)';
-      case 'left':
-        return 'translate3d(32px, 0, 0)';
-      case 'right':
-        return 'translate3d(-32px, 0, 0)';
-      case 'none':
-        return 'translate3d(0, 0, 0) scale(0.97)';
-      default:
-        return 'translate3d(0, 32px, 0)';
-    }
-  };
+  const { ref, style } = useScrollReveal<HTMLDivElement>({
+    delay,
+    duration,
+    direction,
+    distance,
+    threshold,
+    rootMargin,
+    once,
+  });
 
   return (
-    <div
-      ref={domRef}
-      style={{
-        transitionDuration: `${duration}ms`,
-        transitionDelay: `${delay}ms`,
-        transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-        transform: getTransform(),
-        opacity: isVisible ? 1 : 0,
-        willChange: 'transform, opacity',
-      }}
+    <Component
+      ref={ref}
+      style={style}
       className={`transition-all ${className}`}
     >
       {children}
+    </Component>
+  );
+};
+
+export interface StaggerGroupProps {
+  children: React.ReactNode;
+  className?: string;
+  staggerMs?: number;
+  baseDelay?: number;
+  duration?: number;
+  distance?: number;
+  direction?: 'up' | 'down' | 'left' | 'right' | 'none';
+}
+
+export const StaggerGroup: React.FC<StaggerGroupProps> = ({
+  children,
+  className = '',
+  staggerMs = 120,
+  baseDelay = 0,
+  duration = 950,
+  distance = 28,
+  direction = 'up',
+}) => {
+  const childArray = React.Children.toArray(children);
+
+  return (
+    <div className={className}>
+      {childArray.map((child, index) => (
+        <ScrollReveal
+          key={index}
+          delay={baseDelay + index * staggerMs}
+          duration={duration}
+          distance={distance}
+          direction={direction}
+        >
+          {child}
+        </ScrollReveal>
+      ))}
     </div>
   );
 };
