@@ -241,7 +241,29 @@ export const hotelAmenities: Amenity[] = [
   },
 ];
 
-export const diningInfo = {
+export interface MenuItem {
+  id: string;
+  name: string;
+  category: string;
+  description: string;
+  price?: number;
+  dietary?: string;
+  isPopular?: boolean;
+}
+
+export interface DiningInfoType {
+  title: string;
+  subtitle: string;
+  description: string;
+  cuisines: string[];
+  imageUrl?: string;
+  mealTimings: Array<{ meal: string; time: string; note: string }>;
+  features: string[];
+  menuCategories?: string[];
+  menuItems?: MenuItem[];
+}
+
+export const diningInfo: DiningInfoType = {
   title: "Flavours at The Seven's",
   subtitle: "Indoor Dining & Room Service",
   description:
@@ -258,6 +280,60 @@ export const diningInfo = {
     "Vegetarian-friendly menu options",
     "Room service delivered warm to your room",
     "Takeaway facility available for pilgrims & travellers",
+  ],
+  menuCategories: ["Breakfast Sets", "North Indian Specials", "Chinese Favorites", "Breads & Rice", "Beverages"],
+  menuItems: [
+    {
+      id: "m-1",
+      name: "Banarasi Poori & Aloo Bhaji",
+      category: "Breakfast Sets",
+      description: "Crispy freshly fried pooris served with spiced Banarasi style potato curry and pickle.",
+      price: 180,
+      dietary: "Vegetarian",
+      isPopular: true,
+    },
+    {
+      id: "m-2",
+      name: "Paneer Butter Masala",
+      category: "North Indian Specials",
+      description: "Soft cottage cheese simmered in a creamy tomato and cashew gravy with aromatic butter.",
+      price: 280,
+      dietary: "Vegetarian",
+      isPopular: true,
+    },
+    {
+      id: "m-3",
+      name: "Yellow Dal Tadka & Jeera Rice",
+      category: "North Indian Specials",
+      description: "Comforting yellow lentils tempered with cumin, garlic and ghee, served with fragrant basmati rice.",
+      price: 220,
+      dietary: "Vegetarian",
+    },
+    {
+      id: "m-4",
+      name: "Veg Hakka Noodles",
+      category: "Chinese Favorites",
+      description: "Wok-tossed noodles with crisp seasonal bell peppers, cabbage, carrots and mild soy seasoning.",
+      price: 210,
+      dietary: "Vegetarian",
+    },
+    {
+      id: "m-5",
+      name: "Veg Manchurian in Gravy",
+      category: "Chinese Favorites",
+      description: "Golden fried vegetable dumplings in a savory ginger, garlic and scallion sauce.",
+      price: 240,
+      dietary: "Vegetarian",
+      isPopular: true,
+    },
+    {
+      id: "m-6",
+      name: "Traditional Masala Chai",
+      category: "Beverages",
+      description: "Freshly brewed Banarasi tea with crushed cardamom, ginger and fresh milk.",
+      price: 50,
+      dietary: "Vegetarian",
+    },
   ],
 };
 
