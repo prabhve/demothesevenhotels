@@ -1,0 +1,7 @@
+{
+  "name": "The Seven's Hotel Varanasi",
+  "description": "The Seven's Hotel in Bhadaini, Varanasi near Assi Ghat. Comfortable 3-star contemporary hotel accommodation with Wi-Fi, AC, dining, and easy city connectivity.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
