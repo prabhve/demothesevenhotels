@@ -1,5 +1,6 @@
 import React from 'react';
-import { Room, contactInfo, bookingSettings } from '../data/hotelData';
+import { Room } from '../data/hotelData';
+import { useHotelData } from '../context/HotelDataContext';
 import { HotelImage } from './HotelImage';
 import { MessageCircle, Phone, Check, ArrowRight } from 'lucide-react';
 
@@ -9,6 +10,8 @@ interface RoomCardProps {
 }
 
 export const RoomCard: React.FC<RoomCardProps> = ({ room, onSelectRoom }) => {
+  const { contactInfo, bookingSettings } = useHotelData();
+
   const handleWhatsApp = () => {
     const message = bookingSettings.whatsappBookingMessage({
       roomType: room.name,

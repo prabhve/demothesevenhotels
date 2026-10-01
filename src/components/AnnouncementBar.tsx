@@ -1,8 +1,10 @@
 import React from 'react';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
-import { contactInfo, hotelInfo } from '../data/hotelData';
+import { useHotelData } from '../context/HotelDataContext';
 
 export const AnnouncementBar: React.FC = () => {
+  const { hotelInfo, contactInfo } = useHotelData();
+
   return (
     <div className="bg-[#1C1816] text-[#E8DFD5] text-xs py-2 px-4 border-b border-[#B47A46]/20 transition-all">
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">

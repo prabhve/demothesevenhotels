@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Phone } from 'lucide-react';
-import { hotelInfo, contactInfo } from '../data/hotelData';
+import { Menu, X, Phone, Settings } from 'lucide-react';
+import { useHotelData } from '../context/HotelDataContext';
 
 interface NavbarProps {
   onOpenBooking: () => void;
+  onOpenAdmin?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking, onOpenAdmin }) => {
+  const { hotelInfo, contactInfo } = useHotelData();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -42,7 +44,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          {/* Zone 1: Single text element wordmark (Display Serif) */}
+          {/* Zone 1: Single text element wordmark */}
           <a
             href="#"
             className="text-xl sm:text-2xl font-serif tracking-[0.08em] text-[#FAF7F2] hover:text-[#C89B6A] transition-colors whitespace-nowrap uppercase font-semibold"
@@ -66,13 +68,24 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
 
           {/* Zone 3: 1-2 primary actions */}
           <div className="flex items-center gap-3 sm:gap-4">
+            {onOpenAdmin && (
+              <button
+                onClick={onOpenAdmin}
+                className="hidden xl:inline-flex items-center gap-1.5 text-xs text-[#C89B6A] hover:text-white px-2.5 py-1.5 rounded border border-[#B47A46]/30 hover:border-[#B47A46] transition-all"
+                title="Open CMS Editor"
+              >
+                <Settings className="w-3.5 h-3.5" />
+                <span>CMS</span>
+              </button>
+            )}
+
             <a
               href={`tel:${contactInfo.primaryPhoneRaw}`}
               className="hidden sm:inline-flex items-center gap-2 text-xs text-[#E6DACB] hover:text-[#FAF7F2] px-3 py-2 border border-[#B47A46]/30 hover:border-[#B47A46] rounded transition-all whitespace-nowrap"
               title="Call Reception"
             >
               <Phone className="w-3.5 h-3.5 text-[#B47A46]" />
-              <span>Call Front Desk</span>
+              <span>Call Desk</span>
             </a>
 
             <button
@@ -143,6 +156,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
                 <Phone className="w-3.5 h-3.5 text-[#B47A46]" />
                 <span>Call {contactInfo.primaryPhone}</span>
               </a>
+
+              {onOpenAdmin && (
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onOpenAdmin();
+                  }}
+                  className="w-full py-2 text-center text-[11px] uppercase tracking-wider text-[#C89B6A] border border-[#C89B6A]/30 rounded flex items-center justify-center gap-1.5"
+                >
+                  <Settings className="w-3.5 h-3.5" />
+                  <span>Open Management CMS</span>
+                </button>
+              )}
             </div>
           </div>
         </div>

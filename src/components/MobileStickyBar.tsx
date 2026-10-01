@@ -1,12 +1,14 @@
 import React from 'react';
 import { Phone, MessageCircle, CalendarCheck } from 'lucide-react';
-import { contactInfo, bookingSettings } from '../data/hotelData';
+import { useHotelData } from '../context/HotelDataContext';
 
 interface MobileStickyBarProps {
   onOpenBooking: () => void;
 }
 
 export const MobileStickyBar: React.FC<MobileStickyBarProps> = ({ onOpenBooking }) => {
+  const { contactInfo, bookingSettings } = useHotelData();
+
   const handleWhatsApp = () => {
     const message = bookingSettings.whatsappBookingMessage({});
     const url = `https://wa.me/${contactInfo.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;

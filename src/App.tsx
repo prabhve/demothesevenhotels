@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { HotelDataProvider } from './context/HotelDataContext';
 import { AnnouncementBar } from './components/AnnouncementBar';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -18,9 +19,11 @@ import { Footer } from './components/Footer';
 import { BookingModal } from './components/BookingModal';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { MobileStickyBar } from './components/MobileStickyBar';
+import { AdminPortal } from './components/AdminPortal';
 
-export default function App() {
+function MainApp() {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [isAdminPortalOpen, setIsAdminPortalOpen] = useState(false);
   const [selectedRoomName, setSelectedRoomName] = useState<string | undefined>(undefined);
 
   const handleOpenBooking = (roomName?: string) => {
@@ -48,7 +51,10 @@ export default function App() {
       <AnnouncementBar />
 
       {/* 2. Premium Navigation */}
-      <Navbar onOpenBooking={() => handleOpenBooking()} />
+      <Navbar
+        onOpenBooking={() => handleOpenBooking()}
+        onOpenAdmin={() => setIsAdminPortalOpen(true)}
+      />
 
       <main className="flex-1">
         {/* 3. Sophisticated Full-Width Hero */}
@@ -92,7 +98,10 @@ export default function App() {
       </main>
 
       {/* 16. Footer */}
-      <Footer onOpenBooking={() => handleOpenBooking()} />
+      <Footer
+        onOpenBooking={() => handleOpenBooking()}
+        onOpenAdmin={() => setIsAdminPortalOpen(true)}
+      />
 
       {/* Global Interactive Elements */}
       <BookingModal
@@ -101,11 +110,25 @@ export default function App() {
         preselectedRoom={selectedRoomName}
       />
 
+      {/* Fullscreen Property Management CMS Portal */}
+      <AdminPortal
+        isOpen={isAdminPortalOpen}
+        onClose={() => setIsAdminPortalOpen(false)}
+      />
+
       {/* Floating WhatsApp Action Trigger */}
       <FloatingWhatsApp />
 
       {/* Mobile Sticky Booking Bar */}
       <MobileStickyBar onOpenBooking={() => handleOpenBooking()} />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <HotelDataProvider>
+      <MainApp />
+    </HotelDataProvider>
   );
 }

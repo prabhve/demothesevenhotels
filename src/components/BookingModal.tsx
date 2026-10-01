@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { rooms, contactInfo, bookingSettings, Room } from '../data/hotelData';
-import { X, Calendar, Users, BedDouble, MessageCircle, Phone, Mail, ShieldCheck } from 'lucide-react';
+import { useHotelData } from '../context/HotelDataContext';
+import { X, Calendar, Users, BedDouble, MessageCircle, Phone, Mail } from 'lucide-react';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -13,6 +13,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   onClose,
   preselectedRoom,
 }) => {
+  const { rooms, contactInfo, bookingSettings } = useHotelData();
   if (!isOpen) return null;
 
   const today = new Date();
@@ -26,7 +27,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const [checkOut, setCheckOut] = useState(formatDate(tomorrow));
   const [guests, setGuests] = useState('2 Adults');
   const [selectedRoomName, setSelectedRoomName] = useState(
-    preselectedRoom || rooms[0].name
+    preselectedRoom || rooms[0]?.name || 'Classic Room'
   );
   const [specialRequest, setSpecialRequest] = useState('');
 
@@ -43,7 +44,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     }
   };
 
-  const currentRoom = rooms.find((r) => r.name === selectedRoomName) || rooms[0];
+  const currentRoom = rooms.find((r) => r.name === selectedRoomName) || rooms[0] || { basePrice: 3500 };
   const nights = calculateNights();
   const estimatedTotal = currentRoom.basePrice * nights;
 
@@ -70,7 +71,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto animate-fadeIn">
       <div className="bg-[#FFFFFF] text-[#24201D] rounded-2xl max-w-xl w-full shadow-2xl border border-[#E8DFD5] overflow-hidden my-6">
         {/* Header */}
         <div className="bg-[#1C1816] text-[#FAF7F2] p-5 sm:p-6 flex items-center justify-between border-b border-[#B47A46]/30">

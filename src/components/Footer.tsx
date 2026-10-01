@@ -1,12 +1,15 @@
 import React from 'react';
-import { hotelInfo, contactInfo, bookingSettings } from '../data/hotelData';
-import { Phone, Mail, MapPin, ExternalLink, ArrowUp } from 'lucide-react';
+import { useHotelData } from '../context/HotelDataContext';
+import { Phone, Mail, MapPin, ExternalLink, ArrowUp, Settings, Lock } from 'lucide-react';
 
 interface FooterProps {
   onOpenBooking: () => void;
+  onOpenAdmin: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenBooking }) => {
+export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onOpenAdmin }) => {
+  const { hotelInfo, contactInfo, bookingSettings } = useHotelData();
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -18,7 +21,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking }) => {
   };
 
   return (
-    <footer className="bg-[#181412] text-[#FAF7F2] border-t border-[#B47A46]/20 pt-16 pb-24 md:pb-16">
+    <footer className="bg-[#181412] text-[#FAF7F2] border-t border-[#B47A46]/20 pt-16 pb-28 md:pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 pb-14 border-b border-[#FAF7F2]/10">
           {/* Brand & Positioning */}
@@ -110,7 +113,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking }) => {
             </ul>
           </div>
 
-          {/* Contact Details */}
+          {/* Contact Details & Admin CMS Link */}
           <div className="lg:col-span-3 space-y-3">
             <h4 className="text-xs uppercase tracking-[0.2em] text-[#C89B6A] font-semibold">
               Location & Contact
@@ -139,13 +142,32 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking }) => {
                 </a>
               </div>
             </div>
+
+            {/* Prominent Admin Access Button */}
+            <div className="pt-3">
+              <button
+                onClick={onOpenAdmin}
+                className="w-full py-2.5 px-3 bg-[#241F1C] hover:bg-[#302723] text-[#C89B6A] hover:text-[#FAF7F2] border border-[#B47A46]/30 rounded-lg text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs"
+              >
+                <Settings className="w-3.5 h-3.5" />
+                <span>Management CMS Portal</span>
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Bottom Bar: Copyright & Top scroll */}
+        {/* Bottom Bar: Copyright, CMS & Top scroll */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#8F8375]">
-          <div>
-            © {new Date().getFullYear()} {hotelInfo.name}. All rights reserved.
+          <div className="flex flex-wrap items-center gap-3">
+            <span>© {new Date().getFullYear()} {hotelInfo.name}. All rights reserved.</span>
+            <span className="hidden sm:inline">·</span>
+            <button
+              onClick={onOpenAdmin}
+              className="text-[#A89C8F] hover:text-[#C89B6A] inline-flex items-center gap-1 transition-colors cursor-pointer"
+            >
+              <Lock className="w-3 h-3" />
+              <span>Admin Login & Editor</span>
+            </button>
           </div>
 
           <button

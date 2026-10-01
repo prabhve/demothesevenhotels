@@ -24,46 +24,118 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-    <!-- Schema.org JSON-LD for Hotel & LocalBusiness -->
+    <!-- Schema.org JSON-LD for Hotel, LocalBusiness, Breadcrumbs & FAQs -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Hotel",
-      "name": "The Seven's Hotel",
-      "description": "Contemporary 3-star city hotel accommodation located in the Assi - Bhadaini area of Varanasi, Uttar Pradesh, India.",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "B.2/280, Assi - Lanka Rd, near ABHAY CINEMA, Anandbagh, Bhadaini",
-        "addressLocality": "Varanasi",
-        "addressRegion": "Uttar Pradesh",
-        "postalCode": "221005",
-        "addressCountry": "IN"
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "Hotel",
+        "@id": "https://thesevenshotel.com/#hotel",
+        "name": "The Seven's Hotel",
+        "description": "Contemporary 3-star city hotel accommodation located in the Assi - Bhadaini area of Varanasi, Uttar Pradesh, India.",
+        "url": "https://thesevenshotel.com",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "B.2/280, Assi - Lanka Rd, near ABHAY CINEMA, Anandbagh, Bhadaini",
+          "addressLocality": "Varanasi",
+          "addressRegion": "Uttar Pradesh",
+          "postalCode": "221005",
+          "addressCountry": "IN"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 25.2893081,
+          "longitude": 83.0037564
+        },
+        "telephone": ["+918887925271", "+917706876777"],
+        "email": "thesevenshotel@gmail.com",
+        "checkinTime": "12:00:00",
+        "checkoutTime": "11:00:00",
+        "priceRange": "₹₹",
+        "starRating": {
+          "@type": "Rating",
+          "ratingValue": "3"
+        },
+        "amenityFeature": [
+          {"@type": "LocationFeatureSpecification", "name": "Free Wi-Fi", "value": true},
+          {"@type": "LocationFeatureSpecification", "name": "Air Conditioning", "value": true},
+          {"@type": "LocationFeatureSpecification", "name": "Free Parking", "value": true},
+          {"@type": "LocationFeatureSpecification", "name": "24-Hour Front Desk", "value": true},
+          {"@type": "LocationFeatureSpecification", "name": "Room Service", "value": true},
+          {"@type": "LocationFeatureSpecification", "name": "Elevator", "value": true},
+          {"@type": "LocationFeatureSpecification", "name": "Dining / Restaurant", "value": true},
+          {"@type": "LocationFeatureSpecification", "name": "Doctor on Call", "value": true}
+        ]
       },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 25.2893081,
-        "longitude": 83.0037564
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://thesevenshotel.com"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Rooms",
+            "item": "https://thesevenshotel.com/#rooms"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Dining",
+            "item": "https://thesevenshotel.com/#dining"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Location",
+            "item": "https://thesevenshotel.com/#location"
+          }
+        ]
       },
-      "telephone": ["+918887925271", "+917706876777"],
-      "email": "thesevenshotel@gmail.com",
-      "checkinTime": "12:00:00",
-      "checkoutTime": "11:00:00",
-      "priceRange": "₹₹",
-      "starRating": {
-        "@type": "Rating",
-        "ratingValue": "3"
-      },
-      "amenityFeature": [
-        {"@type": "LocationFeatureSpecification", "name": "Free Wi-Fi", "value": true},
-        {"@type": "LocationFeatureSpecification", "name": "Air Conditioning", "value": true},
-        {"@type": "LocationFeatureSpecification", "name": "Free Parking", "value": true},
-        {"@type": "LocationFeatureSpecification", "name": "24-Hour Front Desk", "value": true},
-        {"@type": "LocationFeatureSpecification", "name": "Room Service", "value": true},
-        {"@type": "LocationFeatureSpecification", "name": "Elevator", "value": true},
-        {"@type": "LocationFeatureSpecification", "name": "Dining / Restaurant", "value": true},
-        {"@type": "LocationFeatureSpecification", "name": "Doctor on Call", "value": true}
-      ]
-    }
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Where is The Seven's Hotel located in Varanasi?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The Seven's Hotel is situated at B.2/280, Assi - Lanka Rd, near ABHAY CINEMA, Anandbagh, Bhadaini, Varanasi, Uttar Pradesh 221005, offering easy connectivity to Assi Ghat and BHU."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What are the check-in and check-out timings at The Seven's Hotel?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Check-in time is 12:00 PM and check-out time is 11:00 AM."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does The Seven's Hotel have on-site dining and room service?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, Flavours at The Seven's offers indoor dining and room service serving North Indian and Chinese vegetarian-friendly meals."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What amenities are provided at The Seven's Hotel?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The hotel provides Free Wi-Fi, Air Conditioning, Free Parking, Elevator access, 24-Hour Front Desk, Room Service, Baggage Storage, Doctor on Call, and Transport Assistance."
+            }
+          }
+        ]
+      }
+    ]
     </script>
   </head>
   <body class="bg-[#FDFCF9] text-[#24201D] font-sans antialiased selection:bg-[#B47A46]/20 selection:text-[#1C1917]">
