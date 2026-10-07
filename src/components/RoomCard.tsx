@@ -26,7 +26,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({
   };
 
   return (
-    <div className="bg-[#FFFFFF] border border-[#E8DFD5] rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col h-full group">
+    <div className="hover-lift bg-[#FFFFFF] border border-[#E8DFD5] rounded-2xl overflow-hidden shadow-xs hover:border-[#B47A46]/60 transition-all flex flex-col h-full group">
       {/* Room Image Container */}
       <div className="relative overflow-hidden">
         <HotelImage
@@ -35,7 +35,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({
           category="Rooms"
           title={room.name}
           aspectRatio="4:3"
-          className="transition-transform duration-500 group-hover:scale-105"
+          className="transition-transform duration-700 ease-out group-hover:scale-108"
         />
 
         {/* Room Badge */}

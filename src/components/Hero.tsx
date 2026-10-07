@@ -28,12 +28,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
 
   return (
     <section className="relative min-h-[85vh] md:min-h-[92vh] flex items-center justify-center overflow-hidden bg-[#14100E] text-[#FAF7F2]">
-      {/* High-Resolution Varanasi Assi Ghat & Ganges Riverfront Scenery - Fully Visible & Vibrant */}
+      {/* High-Resolution Varanasi Assi Ghat & Ganges Riverfront Scenery with Smooth Ambient Ken-Burns Motion */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1561359313-0639aad49ca6?auto=format&fit=crop&w=2400&q=90"
           alt="Breathtaking Varanasi Ghats and Boats on Holy River Ganges at Golden Hour"
-          className="w-full h-full object-cover object-center scale-100 brightness-[0.82] contrast-[1.08] saturate-110"
+          className="w-full h-full object-cover object-center scale-100 brightness-[0.84] contrast-[1.08] saturate-110 animate-ken-burns"
           referrerPolicy="no-referrer"
         />
 
@@ -45,8 +45,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
       {/* Main Content */}
       <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 md:py-24 text-center flex flex-col items-center w-full min-w-0">
         <ScrollReveal direction="down" delay={100}>
-          {/* Eyebrow badge */}
-          <div className="inline-flex items-center gap-1.5 sm:gap-2 mb-4 sm:mb-5 px-3.5 sm:px-4 py-1.5 rounded-full border border-white/20 bg-black/60 backdrop-blur-md shadow-xl max-w-full">
+          {/* Eyebrow badge with gentle float */}
+          <div className="animate-float-slow inline-flex items-center gap-1.5 sm:gap-2 mb-4 sm:mb-5 px-3.5 sm:px-4 py-1.5 rounded-full border border-white/20 bg-black/60 backdrop-blur-md shadow-xl max-w-full">
             <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#E5B887] shrink-0" />
             <span className="text-[9.5px] sm:text-xs uppercase tracking-[0.16em] sm:tracking-[0.22em] font-medium text-[#FAF7F2] truncate">
               {hotelInfo.name.toUpperCase()} · BHADAINI, VARANASI
@@ -73,17 +73,20 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-4 w-full sm:w-auto max-w-md sm:max-w-none mx-auto">
             <button
               onClick={handleScrollToBooking}
-              className="w-full sm:w-auto px-6 sm:px-7 py-3 sm:py-3.5 text-xs sm:text-sm uppercase tracking-widest font-semibold text-[#181412] bg-[#C89B6A] hover:bg-[#D8AE7F] active:bg-[#B47A46] rounded-xl shadow-xl transition-all flex items-center justify-center gap-2 group cursor-pointer hover:shadow-[#C89B6A]/30"
+              className="relative overflow-hidden w-full sm:w-auto px-6 sm:px-7 py-3 sm:py-3.5 text-xs sm:text-sm uppercase tracking-widest font-semibold text-[#181412] bg-[#C89B6A] hover:bg-[#D8AE7F] active:bg-[#B47A46] rounded-xl shadow-xl transition-all flex items-center justify-center gap-2 group cursor-pointer hover:shadow-[#C89B6A]/30 hover:scale-[1.02] active:scale-[0.98]"
             >
-              <span>{t.hero.ctaPrimary}</span>
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              <span className="relative z-10 flex items-center gap-2">
+                <span>{t.hero.ctaPrimary}</span>
+                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </span>
+              <div className="absolute inset-0 animate-shimmer pointer-events-none" />
             </button>
 
             <button
               onClick={handleWhatsAppChat}
-              className="w-full sm:w-auto px-5 sm:px-6 py-3 sm:py-3.5 text-xs sm:text-sm uppercase tracking-widest font-semibold text-[#FAF7F2] bg-black/60 hover:bg-black/80 border border-[#25D366]/60 hover:border-[#25D366] rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xl backdrop-blur-md"
+              className="w-full sm:w-auto px-5 sm:px-6 py-3 sm:py-3.5 text-xs sm:text-sm uppercase tracking-widest font-semibold text-[#FAF7F2] bg-black/60 hover:bg-black/80 border border-[#25D366]/60 hover:border-[#25D366] rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xl backdrop-blur-md hover:scale-[1.02] active:scale-[0.98]"
             >
-              <MessageCircle className="w-4 h-4 text-[#25D366]" />
+              <MessageCircle className="w-4 h-4 text-[#25D366] animate-pulse" />
               <span>{t.hero.ctaSecondary}</span>
             </button>
           </div>

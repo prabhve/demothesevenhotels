@@ -155,10 +155,10 @@ export const WhyStaySection: React.FC = () => {
                 className={pillar.colSpan}
               >
                 <div
-                  className={`rounded-2xl p-6 sm:p-8 flex flex-col justify-between h-full border transition-all duration-300 group shadow-xs hover:shadow-md ${
+                  className={`hover-lift rounded-2xl p-6 sm:p-8 flex flex-col justify-between h-full border transition-all group shadow-xs ${
                     pillar.isPrimary
                       ? 'bg-[#1C1816] text-[#FAF7F2] border-[#B47A46]/40 hover:border-[#C89B6A]'
-                      : 'bg-[#FFFFFF] text-[#24201D] border-[#E8DFD5] hover:border-[#B47A46]/50'
+                      : 'bg-[#FFFFFF] text-[#24201D] border-[#E8DFD5] hover:border-[#B47A46]/60'
                   }`}
                 >
                   <div>
