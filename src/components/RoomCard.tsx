@@ -1,6 +1,7 @@
 import React from 'react';
 import { Room } from '../data/hotelData';
 import { useHotelData } from '../context/HotelDataContext';
+import { useSEO } from '../seo/SeoContext';
 import { HotelImage } from './HotelImage';
 import { MessageCircle, Phone, Check, ArrowRight, Eye, Users, BedDouble } from 'lucide-react';
 
@@ -15,11 +16,12 @@ export const RoomCard: React.FC<RoomCardProps> = ({
   onSelectRoom,
   onViewDetails,
 }) => {
-  const { contactInfo, bookingSettings } = useHotelData();
+  const { contactInfo } = useHotelData();
+  const { t, formatPrice, generateWhatsAppUrl } = useSEO();
+  const priceInfo = formatPrice(room.basePrice);
 
   const handleWhatsApp = () => {
-    const message = `Hello The Seven's Hotel, I am interested in booking the ${room.name} (from ₹${room.basePrice.toLocaleString()}/night). Please share availability and booking details.`;
-    const url = `https://wa.me/${contactInfo.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
+    const url = generateWhatsAppUrl('room', room.name);
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
@@ -66,12 +68,19 @@ export const RoomCard: React.FC<RoomCardProps> = ({
           </h3>
 
           {/* Pricing indicator */}
-          <div className="mb-4 flex items-baseline gap-1.5">
-            <span className="text-xs text-[#7A7168]">From</span>
-            <span className="text-2xl font-semibold text-[#1C1816] tabular-nums">
-              {bookingSettings.currency}{room.basePrice.toLocaleString()}
-            </span>
-            <span className="text-xs text-[#7A7168]">/ night*</span>
+          <div className="mb-4">
+            <div className="flex items-baseline gap-1.5 flex-wrap">
+              <span className="text-xs text-[#7A7168]">{t.rooms.from}</span>
+              <span className="text-2xl font-semibold text-[#1C1816] tabular-nums">
+                {priceInfo.displayInr}
+              </span>
+              <span className="text-xs text-[#7A7168]">{t.rooms.perNight}*</span>
+            </div>
+            {priceInfo.foreignEstimate && (
+              <div className="text-[11px] text-[#9E6738] font-medium mt-0.5">
+                {priceInfo.foreignEstimate} (Approx. Reference)
+              </div>
+            )}
           </div>
 
           {/* Short Description */}
@@ -103,14 +112,14 @@ export const RoomCard: React.FC<RoomCardProps> = ({
               className="py-2.5 px-3 text-xs uppercase tracking-wider font-semibold text-[#1C1816] bg-[#FAF8F5] hover:bg-[#F0EAE1] border border-[#E3DDD4] rounded-lg transition-colors flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
             >
               <Eye className="w-3.5 h-3.5 text-[#9E6738]" />
-              <span>View Details</span>
+              <span>{t.rooms.viewDetails}</span>
             </button>
 
             <button
               onClick={() => onSelectRoom(room.name)}
               className="py-2.5 px-3 text-xs uppercase tracking-wider font-semibold text-[#181412] bg-[#C89B6A] hover:bg-[#D8AE7F] active:bg-[#B47A46] rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs whitespace-nowrap"
             >
-              <span>Check Rates</span>
+              <span>{t.rooms.checkRates}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -131,7 +140,7 @@ export const RoomCard: React.FC<RoomCardProps> = ({
               title="Call hotel desk"
             >
               <Phone className="w-3.5 h-3.5 text-[#9E6738]" />
-              <span>Call Desk</span>
+              <span>{t.nav.call}</span>
             </a>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHotelData } from '../context/HotelDataContext';
+import { useSEO } from '../seo/SeoContext';
 import { RoomCard } from './RoomCard';
 import { RoomDetailsModal } from './RoomDetailsModal';
 import { RoomComparison } from './RoomComparison';
@@ -12,8 +13,11 @@ interface RoomsSectionProps {
 
 export const RoomsSection: React.FC<RoomsSectionProps> = ({ onSelectRoom }) => {
   const { rooms, bookingSettings } = useHotelData();
+  const { t, formatPrice } = useSEO();
   const [selectedDetailsRoom, setSelectedDetailsRoom] = useState<Room | null>(null);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+
+  const startingPriceInfo = formatPrice(bookingSettings.startingPrice);
 
   const handleOpenDetails = (room: Room) => {
     setSelectedDetailsRoom(room);
@@ -38,13 +42,18 @@ export const RoomsSection: React.FC<RoomsSectionProps> = ({ onSelectRoom }) => {
                 <span>Comfort & Rest</span>
               </div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-[#1C1816] font-normal tracking-tight">
-                Contemporary Rooms
+                {t.rooms.title}
               </h2>
             </div>
 
             <div className="text-left md:text-right">
               <div className="text-sm font-medium text-[#1C1816]">
-                Starting from {bookingSettings.currency}{bookingSettings.startingPrice.toLocaleString()}* / night
+                {t.rooms.from} {startingPriceInfo.displayInr}* {t.rooms.perNight}
+                {startingPriceInfo.foreignEstimate && (
+                  <span className="block text-xs text-[#9E6738] mt-0.5">
+                    ({startingPriceInfo.foreignEstimate})
+                  </span>
+                )}
               </div>
               <p className="text-xs text-[#7A7168] italic font-serif mt-1">
                 *{bookingSettings.rateDisclaimer}

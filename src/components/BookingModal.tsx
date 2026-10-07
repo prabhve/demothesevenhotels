@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHotelData } from '../context/HotelDataContext';
-import { X, Calendar, Users, BedDouble, MessageCircle, Phone, Mail } from 'lucide-react';
+import { useSEO } from '../seo/SeoContext';
+import { X, Calendar, Users, BedDouble, MessageCircle, Phone, Mail, User, ShieldCheck, Sparkles, CheckCircle2 } from 'lucide-react';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -14,7 +15,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   preselectedRoom,
 }) => {
   const { rooms, contactInfo, bookingSettings } = useHotelData();
-  if (!isOpen) return null;
+  const { formatPrice, generateWhatsAppUrl } = useSEO();
 
   const today = new Date();
   const tomorrow = new Date(today);
@@ -30,6 +31,30 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     preselectedRoom || rooms[0]?.name || 'Classic Room'
   );
   const [specialRequest, setSpecialRequest] = useState('');
+
+  // Update selected room when preselectedRoom prop changes
+  useEffect(() => {
+    if (preselectedRoom) {
+      setSelectedRoomName(preselectedRoom);
+    }
+  }, [preselectedRoom]);
+
+  // Prevent background body scrolling when modal is open & handle Esc key
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') onClose();
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = '';
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
 
   // Calculate estimated nights and price
   const calculateNights = () => {
@@ -47,18 +72,24 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const currentRoom = rooms.find((r) => r.name === selectedRoomName) || rooms[0] || { basePrice: 3500 };
   const nights = calculateNights();
   const estimatedTotal = currentRoom.basePrice * nights;
+  const priceInfo = formatPrice(estimatedTotal);
 
   const handleWhatsAppSend = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    const message = bookingSettings.whatsappBookingMessage({
-      guestName,
+    if (!guestName.trim()) {
+      alert('Please enter your name.');
+      return;
+    }
+    const url = generateWhatsAppUrl('booking', {
+      guestName: guestName.trim() || undefined,
+      phone: guestPhone.trim() || undefined,
       checkIn,
       checkOut,
       guests,
+      roomsCount: '1',
       roomType: selectedRoomName,
-      specialRequest,
+      specialRequest: specialRequest.trim() || undefined,
     });
-    const url = `https://wa.me/${contactInfo.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
@@ -71,186 +102,212 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto animate-fadeIn">
-      <div className="bg-[#FFFFFF] text-[#24201D] rounded-2xl max-w-xl w-full shadow-2xl border border-[#E8DFD5] overflow-hidden my-6">
-        {/* Header */}
-        <div className="bg-[#1C1816] text-[#FAF7F2] p-5 sm:p-6 flex items-center justify-between border-b border-[#B47A46]/30">
+    <div
+      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-hidden animate-fadeIn"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="booking-modal-title"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div
+        className="bg-[#FFFFFF] text-[#24201D] w-full sm:max-w-lg rounded-t-3xl sm:rounded-2xl shadow-2xl border border-[#E8DFD5] flex flex-col max-h-[90vh] sm:max-h-[85vh] overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Sticky Modal Header Bar */}
+        <div className="bg-[#1C1816] text-[#FAF7F2] px-5 py-4 sm:px-6 sm:py-5 flex items-center justify-between border-b border-[#B47A46]/30 shrink-0">
           <div>
-            <span className="text-[11px] uppercase tracking-widest text-[#C89B6A] font-semibold block">
-              Reservation Desk
-            </span>
-            <h3 className="font-serif text-xl sm:text-2xl font-normal">
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-[#C89B6A] font-semibold block">
+                The Seven's Hotel Desk
+              </span>
+            </div>
+            <h3 id="booking-modal-title" className="font-serif text-lg sm:text-2xl font-normal text-white leading-tight mt-0.5">
               Check Room Availability
             </h3>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-full text-[#D8CEBF] hover:text-white hover:bg-white/10 transition-colors"
-            aria-label="Close Booking Modal"
+            className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-[#D8CEBF] hover:text-white transition-colors flex items-center justify-center cursor-pointer shrink-0"
+            aria-label="Close Booking Form"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Content Body */}
-        <form onSubmit={handleWhatsAppSend} className="p-5 sm:p-7 space-y-4">
-          {/* Guest Name & Phone */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+        {/* Scrollable Form Body with zero horizontal scroll */}
+        <div className="flex-1 overflow-y-auto overscroll-contain p-4 sm:p-6 space-y-3.5 scrollbar-thin">
+          <form id="booking-modal-form" onSubmit={handleWhatsAppSend} className="space-y-3.5">
+            {/* Guest Name & Phone */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <label className="text-[11px] uppercase tracking-wider font-semibold text-[#665D55] flex items-center gap-1.5">
+                  <User className="w-3.5 h-3.5 text-[#B47A46]" />
+                  <span>Your Name *</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Full Name"
+                  value={guestName}
+                  onChange={(e) => setGuestName(e.target.value)}
+                  className="w-full px-3.5 py-2.5 text-sm bg-[#FAF8F5] border border-[#E3DDD4] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#B47A46] text-[#1C1816]"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-[11px] uppercase tracking-wider font-semibold text-[#665D55] flex items-center gap-1.5">
+                  <Phone className="w-3.5 h-3.5 text-[#B47A46]" />
+                  <span>Contact Number *</span>
+                </label>
+                <input
+                  type="tel"
+                  required
+                  placeholder="+91 / +1 Contact Number"
+                  value={guestPhone}
+                  onChange={(e) => setGuestPhone(e.target.value)}
+                  className="w-full px-3.5 py-2.5 text-sm bg-[#FAF8F5] border border-[#E3DDD4] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#B47A46] text-[#1C1816]"
+                />
+              </div>
+            </div>
+
+            {/* Dates */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <label className="text-[11px] uppercase tracking-wider font-semibold text-[#665D55] flex items-center gap-1.5">
+                  <Calendar className="w-3.5 h-3.5 text-[#B47A46]" />
+                  <span>Check-In Date *</span>
+                </label>
+                <input
+                  type="date"
+                  value={checkIn}
+                  min={formatDate(today)}
+                  onChange={(e) => setCheckIn(e.target.value)}
+                  className="w-full px-3.5 py-2.5 text-sm bg-[#FAF8F5] border border-[#E3DDD4] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#B47A46] text-[#1C1816]"
+                  required
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-[11px] uppercase tracking-wider font-semibold text-[#665D55] flex items-center gap-1.5">
+                  <Calendar className="w-3.5 h-3.5 text-[#B47A46]" />
+                  <span>Check-Out Date *</span>
+                </label>
+                <input
+                  type="date"
+                  value={checkOut}
+                  min={checkIn || formatDate(today)}
+                  onChange={(e) => setCheckOut(e.target.value)}
+                  className="w-full px-3.5 py-2.5 text-sm bg-[#FAF8F5] border border-[#E3DDD4] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#B47A46] text-[#1C1816]"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Guests & Room Category */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <label className="text-[11px] uppercase tracking-wider font-semibold text-[#665D55] flex items-center gap-1.5">
+                  <Users className="w-3.5 h-3.5 text-[#B47A46]" />
+                  <span>Guests</span>
+                </label>
+                <select
+                  value={guests}
+                  onChange={(e) => setGuests(e.target.value)}
+                  className="w-full px-3.5 py-2.5 text-sm bg-[#FAF8F5] border border-[#E3DDD4] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#B47A46] text-[#1C1816]"
+                >
+                  <option value="1 Adult">1 Adult</option>
+                  <option value="2 Adults">2 Adults</option>
+                  <option value="2 Adults, 1 Child">2 Adults, 1 Child</option>
+                  <option value="3 Adults">3 Adults</option>
+                  <option value="Family / Group">Family / Group</option>
+                </select>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-[11px] uppercase tracking-wider font-semibold text-[#665D55] flex items-center gap-1.5">
+                  <BedDouble className="w-3.5 h-3.5 text-[#B47A46]" />
+                  <span>Room Category</span>
+                </label>
+                <select
+                  value={selectedRoomName}
+                  onChange={(e) => setSelectedRoomName(e.target.value)}
+                  className="w-full px-3.5 py-2.5 text-sm bg-[#FAF8F5] border border-[#E3DDD4] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#B47A46] text-[#1C1816]"
+                >
+                  {rooms.map((r) => (
+                    <option key={r.id} value={r.name}>
+                      {r.name} (from ₹{r.basePrice.toLocaleString()})
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Special Requests */}
             <div className="space-y-1">
               <label className="text-[11px] uppercase tracking-wider font-semibold text-[#665D55]">
-                Your Name
+                Special Requests (Optional)
               </label>
               <input
                 type="text"
-                placeholder="Full Name"
-                value={guestName}
-                onChange={(e) => setGuestName(e.target.value)}
-                className="w-full px-3 py-2 text-sm bg-[#FAF8F5] border border-[#E3DDD4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#B47A46]"
-              />
-            </div>
-            <div className="space-y-1">
-              <label className="text-[11px] uppercase tracking-wider font-semibold text-[#665D55]">
-                Contact Number
-              </label>
-              <input
-                type="tel"
-                placeholder="Phone / WhatsApp"
-                value={guestPhone}
-                onChange={(e) => setGuestPhone(e.target.value)}
-                className="w-full px-3 py-2 text-sm bg-[#FAF8F5] border border-[#E3DDD4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#B47A46]"
-              />
-            </div>
-          </div>
-
-          {/* Dates */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-            <div className="space-y-1">
-              <label className="text-[11px] uppercase tracking-wider font-semibold text-[#665D55] flex items-center gap-1.5">
-                <Calendar className="w-3.5 h-3.5 text-[#B47A46]" />
-                Check-In Date
-              </label>
-              <input
-                type="date"
-                value={checkIn}
-                min={formatDate(today)}
-                onChange={(e) => setCheckIn(e.target.value)}
-                className="w-full px-3 py-2 text-sm bg-[#FAF8F5] border border-[#E3DDD4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#B47A46]"
-                required
+                placeholder="e.g. Ground floor / elder assistance / arrival time"
+                value={specialRequest}
+                onChange={(e) => setSpecialRequest(e.target.value)}
+                className="w-full px-3.5 py-2 text-xs bg-[#FAF8F5] border border-[#E3DDD4] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#B47A46] text-[#1C1816]"
               />
             </div>
 
-            <div className="space-y-1">
-              <label className="text-[11px] uppercase tracking-wider font-semibold text-[#665D55] flex items-center gap-1.5">
-                <Calendar className="w-3.5 h-3.5 text-[#B47A46]" />
-                Check-Out Date
-              </label>
-              <input
-                type="date"
-                value={checkOut}
-                min={checkIn || formatDate(today)}
-                onChange={(e) => setCheckOut(e.target.value)}
-                className="w-full px-3 py-2 text-sm bg-[#FAF8F5] border border-[#E3DDD4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#B47A46]"
-                required
-              />
+            {/* Estimated Tariff Reference Box */}
+            <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#E3DDD4] space-y-1">
+              <div className="flex items-center justify-between text-xs text-[#6B6158]">
+                <span>Reference Base Tariff ({nights} {nights === 1 ? 'night' : 'nights'}):</span>
+                <span className="font-semibold text-[#1C1816] text-sm tabular-nums">
+                  {priceInfo.displayInr}*
+                </span>
+              </div>
+              {priceInfo.foreignEstimate && (
+                <div className="text-[11px] text-[#9E6738] font-medium">
+                  Approx. {priceInfo.foreignEstimate}
+                </div>
+              )}
+              <p className="text-[10px] text-[#7A7168] italic font-serif leading-tight pt-0.5">
+                *{bookingSettings.rateDisclaimer} Direct room enquiry connects to reception.
+              </p>
             </div>
-          </div>
+          </form>
+        </div>
 
-          {/* Guests & Room Type */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-            <div className="space-y-1">
-              <label className="text-[11px] uppercase tracking-wider font-semibold text-[#665D55] flex items-center gap-1.5">
-                <Users className="w-3.5 h-3.5 text-[#B47A46]" />
-                Guests
-              </label>
-              <select
-                value={guests}
-                onChange={(e) => setGuests(e.target.value)}
-                className="w-full px-3 py-2 text-sm bg-[#FAF8F5] border border-[#E3DDD4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#B47A46]"
-              >
-                <option value="1 Adult">1 Adult</option>
-                <option value="2 Adults">2 Adults</option>
-                <option value="2 Adults, 1 Child">2 Adults, 1 Child</option>
-                <option value="3 Adults">3 Adults</option>
-                <option value="Family / Group">Family / Group</option>
-              </select>
-            </div>
+        {/* Sticky Action Footer */}
+        <div className="p-4 sm:p-5 bg-[#FAF8F5] border-t border-[#E8DFD5] space-y-2.5 shrink-0">
+          <button
+            type="submit"
+            form="booking-modal-form"
+            className="w-full py-3.5 px-4 text-xs uppercase tracking-widest font-semibold text-white bg-[#25D366] hover:bg-[#20BA5A] active:bg-[#1DA851] rounded-xl transition-all flex items-center justify-center gap-2 shadow-md cursor-pointer"
+          >
+            <MessageCircle className="w-4 h-4" />
+            <span>Send Enquiry on WhatsApp</span>
+          </button>
 
-            <div className="space-y-1">
-              <label className="text-[11px] uppercase tracking-wider font-semibold text-[#665D55] flex items-center gap-1.5">
-                <BedDouble className="w-3.5 h-3.5 text-[#B47A46]" />
-                Room Category
-              </label>
-              <select
-                value={selectedRoomName}
-                onChange={(e) => setSelectedRoomName(e.target.value)}
-                className="w-full px-3 py-2 text-sm bg-[#FAF8F5] border border-[#E3DDD4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#B47A46]"
-              >
-                {rooms.map((r) => (
-                  <option key={r.id} value={r.name}>
-                    {r.name} (from ₹{r.basePrice.toLocaleString()})
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          {/* Special Requests */}
-          <div className="space-y-1">
-            <label className="text-[11px] uppercase tracking-wider font-semibold text-[#665D55]">
-              Special Requests (Optional)
-            </label>
-            <input
-              type="text"
-              placeholder="e.g. Ground floor / elevator proximity / late arrival"
-              value={specialRequest}
-              onChange={(e) => setSpecialRequest(e.target.value)}
-              className="w-full px-3 py-2 text-sm bg-[#FAF8F5] border border-[#E3DDD4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#B47A46]"
-            />
-          </div>
-
-          {/* Estimated Tariff Reference Box */}
-          <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E3DDD4] space-y-1">
-            <div className="flex items-center justify-between text-xs text-[#6B6158]">
-              <span>Reference Base Tariff ({nights} {nights === 1 ? 'night' : 'nights'}):</span>
-              <span className="font-semibold text-[#1C1816] text-sm tabular-nums">
-                ₹{estimatedTotal.toLocaleString()}*
-              </span>
-            </div>
-            <p className="text-[11px] text-[#7A7168] italic font-serif leading-tight">
-              *{bookingSettings.rateDisclaimer}
-            </p>
-          </div>
-
-          {/* Action CTAs */}
-          <div className="pt-2 space-y-2">
-            <button
-              type="submit"
-              className="w-full py-3 text-xs uppercase tracking-wider font-semibold text-white bg-[#25D366] hover:bg-[#20BA5A] rounded-lg transition-colors flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+          <div className="grid grid-cols-2 gap-2">
+            <a
+              href={`tel:${contactInfo.primaryPhoneRaw}`}
+              className="py-2.5 px-3 text-xs uppercase tracking-wider font-medium text-[#181412] bg-[#FFFFFF] hover:bg-[#F2ECE4] border border-[#E3DDD4] rounded-xl transition-colors flex items-center justify-center gap-1.5 text-center whitespace-nowrap shadow-2xs"
             >
-              <MessageCircle className="w-4 h-4" />
-              <span>Send Enquiry via WhatsApp</span>
+              <Phone className="w-3.5 h-3.5 text-[#9E6738]" />
+              <span>Call Front Desk</span>
+            </a>
+
+            <button
+              type="button"
+              onClick={handleEmailSend}
+              className="py-2.5 px-3 text-xs uppercase tracking-wider font-medium text-[#181412] bg-[#FFFFFF] hover:bg-[#F2ECE4] border border-[#E3DDD4] rounded-xl transition-colors flex items-center justify-center gap-1.5 text-center whitespace-nowrap cursor-pointer shadow-2xs"
+            >
+              <Mail className="w-3.5 h-3.5 text-[#9E6738]" />
+              <span>Email Enquiry</span>
             </button>
-
-            <div className="grid grid-cols-2 gap-2">
-              <a
-                href={`tel:${contactInfo.primaryPhoneRaw}`}
-                className="py-2.5 px-3 text-xs uppercase tracking-wider font-medium text-[#181412] bg-[#FAF8F5] hover:bg-[#F2ECE4] border border-[#E3DDD4] rounded-lg transition-colors flex items-center justify-center gap-1.5 text-center whitespace-nowrap"
-              >
-                <Phone className="w-3.5 h-3.5 text-[#9E6738]" />
-                <span>Call Hotel Desk</span>
-              </a>
-
-              <button
-                type="button"
-                onClick={handleEmailSend}
-                className="py-2.5 px-3 text-xs uppercase tracking-wider font-medium text-[#181412] bg-[#FAF8F5] hover:bg-[#F2ECE4] border border-[#E3DDD4] rounded-lg transition-colors flex items-center justify-center gap-1.5 text-center whitespace-nowrap cursor-pointer"
-              >
-                <Mail className="w-3.5 h-3.5 text-[#9E6738]" />
-                <span>Email Enquiry</span>
-              </button>
-            </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );

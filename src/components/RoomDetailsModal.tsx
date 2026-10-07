@@ -29,6 +29,21 @@ export const RoomDetailsModal: React.FC<RoomDetailsModalProps> = ({
 }) => {
   const { contactInfo, bookingSettings } = useHotelData();
 
+  // Lock body scrolling when modal is open
+  React.useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') onClose();
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = '';
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+  }, [isOpen, onClose]);
+
   if (!isOpen || !room) return null;
 
   const handleWhatsAppEnquiry = () => {
@@ -39,12 +54,18 @@ export const RoomDetailsModal: React.FC<RoomDetailsModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto animate-fadeIn"
+      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-hidden animate-fadeIn"
       role="dialog"
       aria-modal="true"
       aria-labelledby="room-modal-title"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
     >
-      <div className="bg-[#FFFFFF] text-[#24201D] rounded-2xl max-w-3xl w-full shadow-2xl border border-[#E8DFD5] overflow-hidden my-6 max-h-[90vh] flex flex-col">
+      <div
+        className="bg-[#FFFFFF] text-[#24201D] rounded-t-3xl sm:rounded-2xl max-w-3xl w-full shadow-2xl border border-[#E8DFD5] overflow-hidden max-h-[92vh] sm:max-h-[85vh] flex flex-col"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Modal Header Bar */}
         <div className="bg-[#1C1816] text-[#FAF7F2] p-4 sm:p-5 flex items-center justify-between border-b border-[#B47A46]/30 shrink-0">
           <div className="flex items-center gap-2">

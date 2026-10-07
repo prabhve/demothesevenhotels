@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- Home Page -->
+  <url>
+    <loc>https://thesevenshotel.com/en</loc>
+    <lastmod>2025-10-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.00</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thesevenshotel.com/en" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://thesevenshotel.com/hi" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thesevenshotel.com/en" />
+  </url>
+  <url>
+    <loc>https://thesevenshotel.com/hi</loc>
+    <lastmod>2025-10-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.00</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thesevenshotel.com/en" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://thesevenshotel.com/hi" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thesevenshotel.com/en" />
+  </url>
+
+  <!-- Rooms Overview -->
+  <url>
+    <loc>https://thesevenshotel.com/en/rooms</loc>
+    <lastmod>2025-10-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thesevenshotel.com/en/rooms" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://thesevenshotel.com/hi/rooms" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thesevenshotel.com/en/rooms" />
+  </url>
+  <url>
+    <loc>https://thesevenshotel.com/hi/rooms</loc>
+    <lastmod>2025-10-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thesevenshotel.com/en/rooms" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://thesevenshotel.com/hi/rooms" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thesevenshotel.com/en/rooms" />
+  </url>
+
+  <!-- Classic Room -->
+  <url>
+    <loc>https://thesevenshotel.com/en/rooms/classic-room</loc>
+    <lastmod>2025-10-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thesevenshotel.com/en/rooms/classic-room" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://thesevenshotel.com/hi/rooms/classic-room" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thesevenshotel.com/en/rooms/classic-room" />
+  </url>
+  <url>
+    <loc>https://thesevenshotel.com/hi/rooms/classic-room</loc>
+    <lastmod>2025-10-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thesevenshotel.com/en/rooms/classic-room" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://thesevenshotel.com/hi/rooms/classic-room" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thesevenshotel.com/en/rooms/classic-room" />
+  </url>
+
+  <!-- Deluxe Room -->
+  <url>
+    <loc>https://thesevenshotel.com/en/rooms/deluxe-room</loc>
+    <lastmod>2025-10-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thesevenshotel.com/en/rooms/deluxe-room" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://thesevenshotel.com/hi/rooms/deluxe-room" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thesevenshotel.com/en/rooms/deluxe-room" />
+  </url>
+  <url>
+    <loc>https://thesevenshotel.com/hi/rooms/deluxe-room</loc>
+    <lastmod>2025-10-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thesevenshotel.com/en/rooms/deluxe-room" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://thesevenshotel.com/hi/rooms/deluxe-room" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thesevenshotel.com/en/rooms/deluxe-room" />
+  </url>
+
+  <!-- Super Deluxe Room -->
+  <url>
+    <loc>https://thesevenshotel.com/en/rooms/super-deluxe-room</loc>
+    <lastmod>2025-10-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thesevenshotel.com/en/rooms/super-deluxe-room" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://thesevenshotel.com/hi/rooms/super-deluxe-room" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thesevenshotel.com/en/rooms/super-deluxe-room" />
+  </url>
+  <url>
+    <loc>https://thesevenshotel.com/hi/rooms/super-deluxe-room</loc>
+    <lastmod>2025-10-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thesevenshotel.com/en/rooms/super-deluxe-room" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://thesevenshotel.com/hi/rooms/super-deluxe-room" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thesevenshotel.com/en/rooms/super-deluxe-room" />
+  </url>
+
+  <!-- Facilities -->
+  <url>
+    <loc>https://thesevenshotel.com/en/facilities</loc>
+    <lastmod>2025-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thesevenshotel.com/en/facilities" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://thesevenshotel.com/hi/facilities" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thesevenshotel.com/en/facilities" />
+  </url>
+  <url>
+    <loc>https://thesevenshotel.com/hi/facilities</loc>
+    <lastmod>2025-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thesevenshotel.com/en/facilities" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://thesevenshotel.com/hi/facilities" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thesevenshotel.com/en/facilities" />
+  </url>
+
+  <!-- Dining -->
+  <url>
+    <loc>https://thesevenshotel.com/en/dining</loc>
+    <lastmod>2025-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thesevenshotel.com/en/dining" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://thesevenshotel.com/hi/dining" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thesevenshotel.com/en/dining" />
+  </url>
+  <url>
+    <loc>https://thesevenshotel.com/hi/dining</loc>
+    <lastmod>2025-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thesevenshotel.com/en/dining" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://thesevenshotel.com/hi/dining" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thesevenshotel.com/en/dining" />
+  </url>
+
+  <!-- Location -->
+  <url>
+    <loc>https://thesevenshotel.com/en/location</loc>
+    <lastmod>2025-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thesevenshotel.com/en/location" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://thesevenshotel.com/hi/location" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thesevenshotel.com/en/location" />
+  </url>
+  <url>
+    <loc>https://thesevenshotel.com/hi/location</loc>
+    <lastmod>2025-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thesevenshotel.com/en/location" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://thesevenshotel.com/hi/location" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thesevenshotel.com/en/location" />
+  </url>
+
+  <!-- Contact -->
+  <url>
+    <loc>https://thesevenshotel.com/en/contact</loc>
+    <lastmod>2025-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thesevenshotel.com/en/contact" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://thesevenshotel.com/hi/contact" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thesevenshotel.com/en/contact" />
+  </url>
+  <url>
+    <loc>https://thesevenshotel.com/hi/contact</loc>
+    <lastmod>2025-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thesevenshotel.com/en/contact" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://thesevenshotel.com/hi/contact" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thesevenshotel.com/en/contact" />
+  </url>
+
+  <!-- FAQ -->
+  <url>
+    <loc>https://thesevenshotel.com/en/faq</loc>
+    <lastmod>2025-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thesevenshotel.com/en/faq" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://thesevenshotel.com/hi/faq" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thesevenshotel.com/en/faq" />
+  </url>
+  <url>
+    <loc>https://thesevenshotel.com/hi/faq</loc>
+    <lastmod>2025-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thesevenshotel.com/en/faq" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://thesevenshotel.com/hi/faq" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thesevenshotel.com/en/faq" />
+  </url>
+</urlset>

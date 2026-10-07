@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Phone, MessageCircle, ChevronDown, BedDouble, Utensils, Sparkles, MapPin, HelpCircle, Image as ImageIcon, MessageSquare, Compass, ArrowRight } from 'lucide-react';
 import { useHotelData } from '../context/HotelDataContext';
+import { useSEO } from '../seo/SeoContext';
+import { LanguageSelector } from './LanguageSelector';
 
 interface NavbarProps {
   onOpenBooking: () => void;
@@ -8,6 +10,7 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
   const { hotelInfo, contactInfo } = useHotelData();
+  const { t, generateWhatsAppUrl } = useSEO();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [moreDropdownOpen, setMoreDropdownOpen] = useState(false);
@@ -26,36 +29,35 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
   }, []);
 
   const primaryNavLinks = [
-    { label: 'Rooms', href: '#rooms' },
-    { label: 'Dining', href: '#dining' },
-    { label: 'Facilities', href: '#facilities' },
-    { label: 'Experience', href: '#experience-varanasi' },
-    { label: 'Gallery', href: '#gallery' },
-    { label: 'Location', href: '#location' },
+    { label: t.nav.rooms, href: '#rooms' },
+    { label: t.nav.dining, href: '#dining' },
+    { label: t.nav.facilities, href: '#facilities' },
+    { label: t.nav.experienceVaranasi, href: '#experience-varanasi' },
+    { label: t.nav.gallery, href: '#gallery' },
+    { label: t.nav.location, href: '#location' },
   ];
 
   const secondaryNavLinks = [
-    { label: 'Guest Reviews', href: '#reviews' },
-    { label: 'Stay FAQ', href: '#faq' },
-    { label: 'Contact Us', href: '#contact' },
+    { label: t.nav.reviews, href: '#reviews' },
+    { label: t.nav.faq, href: '#faq' },
+    { label: t.nav.contact, href: '#contact' },
     { label: 'Hotel Policies', href: '#policies' },
   ];
 
   const allNavLinks = [
-    { label: 'Rooms & Tariffs', href: '#rooms', icon: BedDouble },
-    { label: 'Flavours Dining', href: '#dining', icon: Utensils },
-    { label: 'Facilities', href: '#facilities', icon: Sparkles },
-    { label: 'Experience Varanasi', href: '#experience-varanasi', icon: Compass },
-    { label: 'Photo Gallery', href: '#gallery', icon: ImageIcon },
-    { label: 'Location & Map', href: '#location', icon: MapPin },
-    { label: 'Guest Reviews', href: '#reviews', icon: MessageSquare },
-    { label: 'Stay FAQ', href: '#faq', icon: HelpCircle },
-    { label: 'Contact Hotel', href: '#contact', icon: Phone },
+    { label: t.nav.rooms, href: '#rooms', icon: BedDouble },
+    { label: t.nav.dining, href: '#dining', icon: Utensils },
+    { label: t.nav.facilities, href: '#facilities', icon: Sparkles },
+    { label: t.nav.experienceVaranasi, href: '#experience-varanasi', icon: Compass },
+    { label: t.nav.gallery, href: '#gallery', icon: ImageIcon },
+    { label: t.nav.location, href: '#location', icon: MapPin },
+    { label: t.nav.reviews, href: '#reviews', icon: MessageSquare },
+    { label: t.nav.faq, href: '#faq', icon: HelpCircle },
+    { label: t.nav.contact, href: '#contact', icon: Phone },
   ];
 
   const handleWhatsApp = () => {
-    const message = "Hello The Seven's Hotel, I would like to enquire about room availability for an upcoming visit to Varanasi.";
-    const url = `https://wa.me/${contactInfo.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
+    const url = generateWhatsAppUrl('general');
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
@@ -133,8 +135,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
             </div>
           </nav>
 
-          {/* Right Action Zone: Call + Book Your Stay */}
-          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+          {/* Right Action Zone: Language + Call + Book Your Stay */}
+          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+            {/* Multilingual Selector (Desktop & Tablet) */}
+            <div className="hidden sm:block">
+              <LanguageSelector variant="header" />
+            </div>
+
             {/* Direct Call Link (Desktop) */}
             <a
               href={`tel:${contactInfo.primaryPhoneRaw}`}
@@ -142,15 +149,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
               title="Call Reception"
             >
               <Phone className="w-3.5 h-3.5 text-[#C89B6A]" />
-              <span className="hidden xl:inline">Call Desk</span>
+              <span className="hidden xl:inline">{t.nav.call}</span>
             </a>
 
             {/* Primary Action: Book Your Stay CTA */}
             <button
               onClick={onOpenBooking}
-              className="px-4 sm:px-5 py-2 sm:py-2.5 text-xs uppercase tracking-wider font-semibold text-[#181412] bg-[#C89B6A] hover:bg-[#D8AE7F] active:bg-[#B47A46] rounded-lg shadow-md transition-all whitespace-nowrap cursor-pointer hover:shadow-[#C89B6A]/20 shrink-0"
+              className="px-3.5 sm:px-5 py-2 sm:py-2.5 text-xs uppercase tracking-wider font-semibold text-[#181412] bg-[#C89B6A] hover:bg-[#D8AE7F] active:bg-[#B47A46] rounded-lg shadow-md transition-all whitespace-nowrap cursor-pointer hover:shadow-[#C89B6A]/20 shrink-0"
             >
-              Book Your Stay
+              {t.nav.bookStay}
             </button>
 
             {/* Mobile Navigation Trigger */}
@@ -200,8 +207,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
                 </button>
               </div>
 
+              {/* Mobile Language Selector */}
+              <div className="pt-3 pb-2">
+                <LanguageSelector variant="mobile" />
+              </div>
+
               {/* Navigation Grid */}
-              <div className="grid grid-cols-2 gap-2.5 py-5 border-b border-[#B47A46]/15">
+              <div className="grid grid-cols-2 gap-2.5 py-4 border-b border-[#B47A46]/15">
                 {allNavLinks.map((item) => {
                   const Icon = item.icon;
                   return (

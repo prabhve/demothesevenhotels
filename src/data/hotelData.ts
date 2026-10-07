@@ -26,6 +26,7 @@ export interface NearbyAttraction {
   proximityNote: string;
   mapsQuery: string;
   highlight?: string;
+  imageUrl?: string;
 }
 
 export interface Testimonial {
@@ -61,6 +62,7 @@ export interface MenuItem {
   price?: number;
   dietary?: string;
   isPopular?: boolean;
+  imageUrl?: string;
 }
 
 export interface DiningInfoType {
@@ -148,10 +150,11 @@ export const rooms: Room[] = [
     name: "Classic Room",
     basePrice: 3500,
     badge: "Most Popular",
-    description: "Comfortable contemporary accommodation designed for a convenient stay in Varanasi, ideal for solo travelers and couples.",
+    description: "Comfortable contemporary accommodation designed for a convenient stay in Varanasi, ideal for solo travelers, pilgrims, and couples.",
     bedType: "Queen Bed",
     occupancy: "Up to 2 Adults",
     imageFallbackTitle: "Classic Contemporary Room",
+    imageUrl: "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1200&q=80",
     amenities: [
       "Air Conditioning",
       "Free High-Speed Wi-Fi",
@@ -175,10 +178,11 @@ export const rooms: Room[] = [
     name: "Deluxe Room",
     basePrice: 4000,
     badge: "Extra Space",
-    description: "Enhanced contemporary room with added floor area, sitting space, and comfortable bedding for guests seeking extra ease.",
+    description: "Enhanced contemporary room with added floor area, work desk, sitting space, and comfortable bedding for guests seeking extra ease.",
     bedType: "King Bed or Twin Beds",
     occupancy: "Up to 3 Guests",
     imageFallbackTitle: "Deluxe Modern Room",
+    imageUrl: "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80",
     amenities: [
       "Air Conditioning",
       "Free High-Speed Wi-Fi",
@@ -202,10 +206,11 @@ export const rooms: Room[] = [
     name: "Super Deluxe Room",
     basePrice: 4500,
     badge: "Spacious Comfort",
-    description: "Our largest accommodation with generous living space, premium king bedding, and ample room for families or extended stays in Varanasi.",
+    description: "Our largest accommodation with generous living space, premium king bedding, lounging furniture, and ample room for families or extended stays in Varanasi.",
     bedType: "Premium King Bed",
     occupancy: "Up to 3-4 Guests",
     imageFallbackTitle: "Super Deluxe Premium Room",
+    imageUrl: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1200&q=80",
     amenities: [
       "Air Conditioning",
       "Free High-Speed Wi-Fi",
@@ -307,6 +312,7 @@ export const diningInfo: DiningInfoType = {
   description:
     "Enjoy comforting vegetarian-friendly Indian and Chinese favourites in a relaxed indoor setting, with convenient dining options for guests staying at The Seven's Hotel.",
   cuisines: ["North Indian", "Chinese", "Vegetarian-Friendly Offerings", "Fresh Breakfast"],
+  imageUrl: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
   mealTimings: [
     { meal: "Breakfast", time: "Available Morning Hours", note: "Freshly prepared options" },
     { meal: "Lunch", time: "Midday Service", note: "North Indian & Chinese selections" },
@@ -329,6 +335,7 @@ export const diningInfo: DiningInfoType = {
       price: 180,
       dietary: "Vegetarian",
       isPopular: true,
+      imageUrl: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80",
     },
     {
       id: "m-2",
@@ -338,6 +345,7 @@ export const diningInfo: DiningInfoType = {
       price: 280,
       dietary: "Vegetarian",
       isPopular: true,
+      imageUrl: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=800&q=80",
     },
     {
       id: "m-3",
@@ -346,6 +354,7 @@ export const diningInfo: DiningInfoType = {
       description: "Comforting yellow lentils tempered with cumin, garlic and ghee, served with fragrant basmati rice.",
       price: 220,
       dietary: "Vegetarian",
+      imageUrl: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=800&q=80",
     },
     {
       id: "m-4",
@@ -354,6 +363,7 @@ export const diningInfo: DiningInfoType = {
       description: "Wok-tossed noodles with crisp seasonal bell peppers, cabbage, carrots and mild soy seasoning.",
       price: 210,
       dietary: "Vegetarian",
+      imageUrl: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=800&q=80",
     },
     {
       id: "m-5",
@@ -363,6 +373,7 @@ export const diningInfo: DiningInfoType = {
       price: 240,
       dietary: "Vegetarian",
       isPopular: true,
+      imageUrl: "https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=800&q=80",
     },
     {
       id: "m-6",
@@ -371,6 +382,7 @@ export const diningInfo: DiningInfoType = {
       description: "Freshly brewed Banarasi tea with crushed cardamom, ginger and fresh milk.",
       price: 50,
       dietary: "Vegetarian",
+      imageUrl: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80",
     },
   ],
 };
@@ -383,6 +395,7 @@ export const nearbyPlaces: NearbyAttraction[] = [
     proximityNote: "~800m - 1 km (Walking & e-rickshaw access)",
     mapsQuery: "Assi Ghat Varanasi",
     highlight: "Subah-e-Banaras & Aarti",
+    imageUrl: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=1200&q=80",
   },
   {
     name: "Tulsi Ghat",
@@ -391,6 +404,7 @@ export const nearbyPlaces: NearbyAttraction[] = [
     proximityNote: "~1.2 km from hotel",
     mapsQuery: "Tulsi Ghat Varanasi",
     highlight: "Tulsidas Heritage",
+    imageUrl: "https://images.unsplash.com/photo-1598890777032-bde835ba27c2?auto=format&fit=crop&w=1200&q=80",
   },
   {
     name: "Sankat Mochan Hanuman Temple",
@@ -399,6 +413,7 @@ export const nearbyPlaces: NearbyAttraction[] = [
     proximityNote: "~1.5 km (5-7 min drive)",
     mapsQuery: "Sankat Mochan Hanuman Temple Varanasi",
     highlight: "Daily Darshan",
+    imageUrl: "https://images.unsplash.com/photo-1609766857041-ed402ea8069a?auto=format&fit=crop&w=1200&q=80",
   },
   {
     name: "Durga Temple (Durga Kund)",
@@ -407,6 +422,7 @@ export const nearbyPlaces: NearbyAttraction[] = [
     proximityNote: "~1.2 km from Bhadaini",
     mapsQuery: "Durga Mandir Varanasi Durga Kund",
     highlight: "Sacred Kund & Temple",
+    imageUrl: "https://images.unsplash.com/photo-1627894483216-2138af692e32?auto=format&fit=crop&w=1200&q=80",
   },
   {
     name: "Tulsi Manas Mandir",
@@ -415,6 +431,7 @@ export const nearbyPlaces: NearbyAttraction[] = [
     proximityNote: "~1.4 km from hotel",
     mapsQuery: "Tulsi Manas Mandir Varanasi",
     highlight: "Engraved Ramcharitmanas",
+    imageUrl: "https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?auto=format&fit=crop&w=1200&q=80",
   },
   {
     name: "Kashi Vishwanath Temple",
@@ -423,6 +440,7 @@ export const nearbyPlaces: NearbyAttraction[] = [
     proximityNote: "~4.5 km (Connected by city transit)",
     mapsQuery: "Kashi Vishwanath Temple Varanasi",
     highlight: "Spiritual Epicenter",
+    imageUrl: "https://images.unsplash.com/photo-1609766857041-ed402ea8069a?auto=format&fit=crop&w=1200&q=80",
   },
   {
     name: "Dashashwamedh Ghat",
@@ -431,6 +449,7 @@ export const nearbyPlaces: NearbyAttraction[] = [
     proximityNote: "~3.8 km from hotel",
     mapsQuery: "Dashashwamedh Ghat Varanasi",
     highlight: "Maha Ganga Aarti",
+    imageUrl: "https://images.unsplash.com/photo-1571536802807-30451e3955d8?auto=format&fit=crop&w=1200&q=80",
   },
 ];
 
@@ -478,37 +497,57 @@ export const galleryItems: GalleryItem[] = [
     id: "gal-1",
     category: "Exterior",
     title: "The Seven's Hotel Building Facade",
-    caption: "Contemporary exterior situated on Assi - Lanka Road in Bhadaini, Varanasi.",
+    caption: "Contemporary hotel exterior situated on Assi - Lanka Road in Bhadaini, Varanasi.",
+    imageUrl: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "gal-2",
     category: "Rooms",
     title: "Classic & Deluxe Guest Accommodations",
-    caption: "Comfortable bedding, air conditioning, and peaceful clean decor.",
+    caption: "Comfortable bedding, individual air conditioning, and peaceful clean decor.",
+    imageUrl: "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "gal-3",
-    category: "Reception",
-    title: "24-Hour Hospitality Front Desk",
-    caption: "Welcoming reception team ready to assist with check-in and city guidance.",
+    category: "Rooms",
+    title: "Super Deluxe Spacious King Suite",
+    caption: "Generous floor plan with lounging space, premium king bed, and private bathroom.",
+    imageUrl: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "gal-4",
-    category: "Dining",
-    title: "Indoor Dining & Flavours at The Seven's",
-    caption: "Comfortable dining space offering fresh North Indian and Chinese vegetarian-friendly meals.",
+    category: "Reception",
+    title: "24-Hour Hospitality Front Desk",
+    caption: "Welcoming reception team ready to assist with check-in, temple visits and city guidance.",
+    imageUrl: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "gal-5",
-    category: "Interiors",
-    title: "Modern Hallways & Elevator Access",
-    caption: "Step-free elevator access serving all room floors smoothly.",
+    category: "Dining",
+    title: "Indoor Dining & Flavours at The Seven's",
+    caption: "Comfortable dining space offering fresh North Indian and Chinese vegetarian-friendly meals.",
+    imageUrl: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "gal-6",
+    category: "Interiors",
+    title: "Modern Hallways & Elevator Floor Access",
+    caption: "Step-free passenger elevator access serving all guest room floors smoothly.",
+    imageUrl: "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    id: "gal-7",
     category: "Surroundings",
     title: "Assi Ghat & Varanasi Riverfront",
-    caption: "Close proximity to spiritual ghats and cultural hubs of sacred Varanasi.",
+    caption: "Close proximity to spiritual morning aarti and cultural hubs of sacred Varanasi.",
+    imageUrl: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    id: "gal-8",
+    category: "Surroundings",
+    title: "Evening Ganga Aarti at Ghats",
+    caption: "World-renowned spiritual ceremony celebrated across the holy riverfront ghats.",
+    imageUrl: "https://images.unsplash.com/photo-1571536802807-30451e3955d8?auto=format&fit=crop&w=1200&q=80",
   },
 ];
 

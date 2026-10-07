@@ -1,17 +1,18 @@
 import React from 'react';
 import { Phone, MessageCircle, CalendarCheck } from 'lucide-react';
 import { useHotelData } from '../context/HotelDataContext';
+import { useSEO } from '../seo/SeoContext';
 
 interface MobileStickyBarProps {
   onOpenBooking: () => void;
 }
 
 export const MobileStickyBar: React.FC<MobileStickyBarProps> = ({ onOpenBooking }) => {
-  const { contactInfo, bookingSettings } = useHotelData();
+  const { contactInfo } = useHotelData();
+  const { t, generateWhatsAppUrl } = useSEO();
 
   const handleWhatsApp = () => {
-    const message = bookingSettings.whatsappBookingMessage({});
-    const url = `https://wa.me/${contactInfo.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
+    const url = generateWhatsAppUrl('general');
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
@@ -25,7 +26,7 @@ export const MobileStickyBar: React.FC<MobileStickyBarProps> = ({ onOpenBooking 
           title="Call Hotel"
         >
           <Phone className="w-3.5 h-3.5 text-[#C89B6A]" />
-          <span>Call</span>
+          <span>{t.nav.call}</span>
         </a>
 
         {/* WhatsApp Button */}
@@ -35,7 +36,7 @@ export const MobileStickyBar: React.FC<MobileStickyBarProps> = ({ onOpenBooking 
           title="WhatsApp"
         >
           <MessageCircle className="w-3.5 h-3.5 fill-white" />
-          <span>WhatsApp</span>
+          <span>{t.nav.whatsapp}</span>
         </button>
 
         {/* Book Now Button */}
@@ -44,7 +45,7 @@ export const MobileStickyBar: React.FC<MobileStickyBarProps> = ({ onOpenBooking 
           className="flex-[1.4] min-h-[44px] px-3 py-2 text-[11px] uppercase tracking-widest font-semibold text-[#181412] bg-[#C89B6A] active:bg-[#B47A46] rounded-lg flex items-center justify-center gap-1.5 shadow-md whitespace-nowrap cursor-pointer"
         >
           <CalendarCheck className="w-3.5 h-3.5" />
-          <span>Book Now</span>
+          <span>{t.nav.bookStay}</span>
         </button>
       </div>
     </div>

@@ -1,10 +1,12 @@
 import React from 'react';
 import { useHotelData } from '../context/HotelDataContext';
+import { useSEO } from '../seo/SeoContext';
 import { MapPin, Navigation, Compass, ExternalLink, Train, Plane, Car, Footprints } from 'lucide-react';
 import { ScrollReveal } from './ScrollReveal';
 
 export const LocationSection: React.FC = () => {
   const { hotelInfo } = useHotelData();
+  const { t } = useSEO();
 
   return (
     <section id="location" className="py-20 sm:py-24 bg-[#F8F6F0] text-[#24201D] border-t border-[#E8DFD5] overflow-hidden">
@@ -19,10 +21,10 @@ export const LocationSection: React.FC = () => {
                 <span>Assi–Lanka Road</span>
               </div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-[#1C1816] font-normal tracking-tight">
-                Location & Connectivity
+                {t.location.title}
               </h2>
               <p className="text-sm text-[#665D55] mt-2 max-w-2xl">
-                Strategically positioned in Bhadaini on Assi–Lanka Road near Abhay Cinema, providing convenient arrival and departure connectivity across Varanasi.
+                {t.location.subtitle}
               </p>
             </div>
 
@@ -33,7 +35,7 @@ export const LocationSection: React.FC = () => {
               className="px-6 py-3 text-xs uppercase tracking-wider font-semibold text-[#181412] bg-[#C89B6A] hover:bg-[#D8AE7F] active:bg-[#B47A46] rounded-lg transition-all inline-flex items-center gap-2 whitespace-nowrap self-start md:self-auto shadow-xs"
             >
               <Navigation className="w-4 h-4" />
-              <span>GET DIRECTIONS</span>
+              <span>{t.location.getDirections}</span>
             </a>
           </div>
         </ScrollReveal>

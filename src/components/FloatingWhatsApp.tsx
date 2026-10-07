@@ -1,13 +1,12 @@
 import React from 'react';
 import { MessageCircle } from 'lucide-react';
-import { useHotelData } from '../context/HotelDataContext';
+import { useSEO } from '../seo/SeoContext';
 
 export const FloatingWhatsApp: React.FC = () => {
-  const { contactInfo, bookingSettings } = useHotelData();
+  const { generateWhatsAppUrl } = useSEO();
 
   const handleClick = () => {
-    const message = bookingSettings.whatsappBookingMessage({});
-    const url = `https://wa.me/${contactInfo.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
+    const url = generateWhatsAppUrl('general');
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 

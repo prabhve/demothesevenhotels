@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { HotelDataProvider } from './context/HotelDataContext';
+import { SeoProvider } from './seo/SeoContext';
 import { AnnouncementBar } from './components/AnnouncementBar';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -123,7 +124,9 @@ function MainApp() {
 export default function App() {
   return (
     <HotelDataProvider>
-      <MainApp />
+      <SeoProvider>
+        <MainApp />
+      </SeoProvider>
     </HotelDataProvider>
   );
 }

@@ -1,11 +1,13 @@
 import React from 'react';
 import { useHotelData } from '../context/HotelDataContext';
+import { useSEO } from '../seo/SeoContext';
 import { HotelImage } from './HotelImage';
 import { Compass, MapPin, ExternalLink, Sparkles, Navigation } from 'lucide-react';
 import { ScrollReveal } from './ScrollReveal';
 
 export const ExperienceVaranasiSection: React.FC = () => {
   const { nearbyPlaces, hotelInfo } = useHotelData();
+  const { t } = useSEO();
 
   return (
     <section id="experience-varanasi" className="py-20 sm:py-24 bg-[#FAF8F5] text-[#24201D] border-t border-[#E8DFD5] overflow-hidden">
@@ -21,10 +23,10 @@ export const ExperienceVaranasiSection: React.FC = () => {
                 <span>Sacred Kashi</span>
               </div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-[#1C1816] font-normal tracking-tight">
-                Experience Varanasi from Assi
+                {t.experience.title}
               </h2>
               <p className="text-sm sm:text-base text-[#5C534B] mt-3 max-w-2xl leading-relaxed">
-                Stay in the soulful southern quarter of Varanasi, where ancient morning traditions, Ganga aartis, renowned temple shrines, and sacred river ghats are just minutes away.
+                {t.experience.subtitle}
               </p>
             </div>
 
@@ -82,6 +84,7 @@ export const ExperienceVaranasiSection: React.FC = () => {
                 {/* Visual Thumbnail */}
                 <div className="relative aspect-[16/9] overflow-hidden bg-[#181412]">
                   <HotelImage
+                    src={place.imageUrl}
                     alt={place.name}
                     category="Surroundings"
                     title={place.name}

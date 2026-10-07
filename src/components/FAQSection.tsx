@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useHotelData } from '../context/HotelDataContext';
+import { useSEO } from '../seo/SeoContext';
 import { HelpCircle, ChevronDown, MessageCircle, Phone, Mail } from 'lucide-react';
 import { ScrollReveal } from './ScrollReveal';
 
 export const FAQSection: React.FC = () => {
   const { faqList, contactInfo } = useHotelData();
+  const { t, generateWhatsAppUrl } = useSEO();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const toggleFAQ = (index: number) => {
@@ -19,15 +21,15 @@ export const FAQSection: React.FC = () => {
           <div className="text-center mb-12 sm:mb-16">
             <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#9E6738] font-semibold mb-2">
               <HelpCircle className="w-3.5 h-3.5" />
-              <span>Guest Information</span>
+              <span>{t.faq.badge}</span>
               <span aria-hidden="true">·</span>
               <span>Stay Guidelines</span>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-[#1C1816] font-normal tracking-tight">
-              Frequently Asked Questions
+              {t.faq.title}
             </h2>
             <p className="text-sm text-[#665D55] mt-3 max-w-xl mx-auto">
-              Essential details regarding check-in timings, amenities, parking, and reservations at The Seven's Hotel Varanasi.
+              {t.faq.subtitle}
             </p>
           </div>
         </ScrollReveal>
@@ -84,9 +86,7 @@ export const FAQSection: React.FC = () => {
 
             <div className="flex flex-wrap items-center justify-center gap-2.5 shrink-0">
               <a
-                href={`https://wa.me/${contactInfo.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-                  "Hello The Seven's Hotel, I have a query regarding my upcoming stay in Varanasi."
-                )}`}
+                href={generateWhatsAppUrl('general')}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2.5 text-xs uppercase tracking-wider font-semibold text-[#181412] bg-[#C89B6A] hover:bg-[#D8AE7F] rounded-lg transition-colors inline-flex items-center gap-1.5 shadow-sm"
@@ -100,7 +100,7 @@ export const FAQSection: React.FC = () => {
                 className="px-4 py-2.5 text-xs uppercase tracking-wider font-medium text-[#FAF7F2] bg-[#2A231F] hover:bg-[#352D28] border border-[#B47A46]/30 rounded-lg transition-colors inline-flex items-center gap-1.5"
               >
                 <Phone className="w-3.5 h-3.5 text-[#C89B6A]" />
-                <span>Call Desk</span>
+                <span>{t.nav.call}</span>
               </a>
             </div>
           </div>

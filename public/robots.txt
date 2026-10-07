@@ -1,0 +1,45 @@
+# robots.txt for The Seven's Hotel Varanasi
+# https://thesevenshotel.com
+
+User-agent: *
+Allow: /
+Allow: /en/
+Allow: /hi/
+Allow: /bn/
+Allow: /ta/
+Allow: /te/
+Allow: /mr/
+Allow: /gu/
+Allow: /kn/
+Allow: /ml/
+Allow: /pa/
+Allow: /or/
+Allow: /as/
+Allow: /ur/
+Allow: /fr/
+Allow: /de/
+Allow: /es/
+Allow: /it/
+Allow: /pt/
+Allow: /ru/
+Allow: /ar/
+Allow: /ja/
+Allow: /ko/
+Allow: /zh-hans/
+Allow: /zh-hant/
+Allow: /th/
+Allow: /tr/
+Allow: /vi/
+Allow: /id/
+Allow: /fa/
+
+# Disallow internal CMS and private endpoints
+Disallow: /admin
+Disallow: /admin/
+Disallow: /api/
+Disallow: /temp/
+Disallow: /preview/
+
+# Host & Sitemap definition
+Host: https://thesevenshotel.com
+Sitemap: https://thesevenshotel.com/sitemap.xml

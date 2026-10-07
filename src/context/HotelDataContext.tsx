@@ -71,7 +71,7 @@ export interface HotelDataContextType {
 
 const HotelDataContext = createContext<HotelDataContextType | undefined>(undefined);
 
-const LOCAL_STORAGE_KEY = 'sevens_hotel_cms_data_v2';
+const LOCAL_STORAGE_KEY = 'sevens_hotel_cms_data_v3';
 
 export const HotelDataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [hotelInfo, setHotelInfo] = useState(defaultHotelInfo);

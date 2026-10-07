@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Calendar, Users, BedDouble, MessageCircle, Send, CheckCircle2, Loader2, Phone, Mail, User, ShieldCheck, ArrowRight } from 'lucide-react';
 import { useHotelData } from '../context/HotelDataContext';
+import { useSEO } from '../seo/SeoContext';
 import { ScrollReveal } from './ScrollReveal';
 
 export const QuickBookingCard: React.FC = () => {
   const { rooms, contactInfo, bookingSettings } = useHotelData();
+  const { t, generateWhatsAppUrl } = useSEO();
 
   // Today and Tomorrow default dates
   const today = new Date();
@@ -27,9 +29,8 @@ export const QuickBookingCard: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // WhatsApp generator
-  const getWhatsAppMessage = () => {
-    return bookingSettings.whatsappBookingMessage({
+  const handleWhatsAppEnquiry = () => {
+    const url = generateWhatsAppUrl('booking', {
       guestName: guestName || undefined,
       phone: mobileNumber || undefined,
       email: email || undefined,
@@ -41,11 +42,6 @@ export const QuickBookingCard: React.FC = () => {
       roomType,
       specialRequest: specialRequest || undefined,
     });
-  };
-
-  const handleWhatsAppEnquiry = () => {
-    const message = getWhatsAppMessage();
-    const url = `https://wa.me/${contactInfo.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
@@ -55,14 +51,16 @@ export const QuickBookingCard: React.FC = () => {
       alert('Please enter your full name.');
       return;
     }
-    if (!mobileNumber.trim()) {
-      alert('Please enter your mobile or WhatsApp contact number.');
+    // Accept international phone formats e.g. +91, +1, +44, +971 or standard numbers
+    const cleanedPhone = mobileNumber.trim();
+    if (!cleanedPhone || cleanedPhone.length < 7) {
+      alert('Please enter a valid contact number (with country code e.g. +91, +1, +44).');
       return;
     }
 
     setIsLoading(true);
     // Simulate swift dispatch
-    await new Promise((resolve) => setTimeout(resolve, 400));
+    await new Promise((resolve) => setTimeout(resolve, 350));
     setIsLoading(false);
     setIsSubmitted(true);
 
@@ -129,7 +127,7 @@ export const QuickBookingCard: React.FC = () => {
                     Direct Reservation Desk
                   </span>
                   <h3 className="font-serif text-xl sm:text-2xl text-[#1C1816] font-normal">
-                    Check Availability & Send Enquiry
+                    {t.quickBooking.title}
                   </h3>
                 </div>
                 <div className="hidden md:flex items-center gap-2 text-xs text-[#7A7168]">
@@ -144,7 +142,7 @@ export const QuickBookingCard: React.FC = () => {
                 <div className="space-y-1">
                   <label className="text-[11px] uppercase tracking-wider font-semibold text-[#665D55] flex items-center gap-1.5">
                     <Calendar className="w-3.5 h-3.5 text-[#B47A46]" />
-                    <span>Check-In Date *</span>
+                    <span>{t.quickBooking.checkIn} *</span>
                   </label>
                   <input
                     type="date"
@@ -160,7 +158,7 @@ export const QuickBookingCard: React.FC = () => {
                 <div className="space-y-1">
                   <label className="text-[11px] uppercase tracking-wider font-semibold text-[#665D55] flex items-center gap-1.5">
                     <Calendar className="w-3.5 h-3.5 text-[#B47A46]" />
-                    <span>Check-Out Date *</span>
+                    <span>{t.quickBooking.checkOut} *</span>
                   </label>
                   <input
                     type="date"
@@ -176,7 +174,7 @@ export const QuickBookingCard: React.FC = () => {
                 <div className="grid grid-cols-2 gap-2">
                   <div className="space-y-1">
                     <label className="text-[11px] uppercase tracking-wider font-semibold text-[#665D55]">
-                      Adults *
+                      {t.quickBooking.adults} *
                     </label>
                     <select
                       value={adults}
@@ -192,7 +190,7 @@ export const QuickBookingCard: React.FC = () => {
 
                   <div className="space-y-1">
                     <label className="text-[11px] uppercase tracking-wider font-semibold text-[#665D55]">
-                      Children
+                      {t.quickBooking.children}
                     </label>
                     <select
                       value={children}
@@ -211,7 +209,7 @@ export const QuickBookingCard: React.FC = () => {
                 <div className="space-y-1">
                   <label className="text-[11px] uppercase tracking-wider font-semibold text-[#665D55] flex items-center gap-1.5">
                     <BedDouble className="w-3.5 h-3.5 text-[#B47A46]" />
-                    <span>Preferred Room *</span>
+                    <span>{t.quickBooking.preferredRoom} *</span>
                   </label>
                   <select
                     value={roomType}
@@ -231,7 +229,7 @@ export const QuickBookingCard: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
                 <div className="space-y-1">
                   <label className="text-[11px] uppercase tracking-wider font-semibold text-[#665D55]">
-                    Guest Name *
+                    {t.quickBooking.guestName} *
                   </label>
                   <input
                     type="text"
@@ -245,12 +243,12 @@ export const QuickBookingCard: React.FC = () => {
 
                 <div className="space-y-1">
                   <label className="text-[11px] uppercase tracking-wider font-semibold text-[#665D55]">
-                    Mobile / WhatsApp Number *
+                    {t.quickBooking.mobile} *
                   </label>
                   <input
                     type="tel"
                     required
-                    placeholder="+91 98765 43210"
+                    placeholder="+91 98765 43210 / +1..."
                     value={mobileNumber}
                     onChange={(e) => setMobileNumber(e.target.value)}
                     className="w-full px-3.5 py-2.5 text-sm bg-[#FAF8F5] border border-[#E3DDD4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#B47A46] text-[#24201D]"
@@ -259,7 +257,7 @@ export const QuickBookingCard: React.FC = () => {
 
                 <div className="space-y-1">
                   <label className="text-[11px] uppercase tracking-wider font-semibold text-[#665D55]">
-                    Email Address (Optional)
+                    {t.quickBooking.email}
                   </label>
                   <input
                     type="email"
@@ -274,11 +272,11 @@ export const QuickBookingCard: React.FC = () => {
               {/* Special Requests */}
               <div className="space-y-1">
                 <label className="text-[11px] uppercase tracking-wider font-semibold text-[#665D55]">
-                  Special Request / Travel Notes (Optional)
+                  {t.quickBooking.specialRequest}
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. Early check-in request / temple visit vehicle assistance / ground floor preference"
+                  placeholder="e.g. Early check-in request / temple visit vehicle assistance"
                   value={specialRequest}
                   onChange={(e) => setSpecialRequest(e.target.value)}
                   className="w-full px-3.5 py-2 text-xs bg-[#FAF8F5] border border-[#E3DDD4] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#B47A46] text-[#24201D]"
@@ -288,7 +286,7 @@ export const QuickBookingCard: React.FC = () => {
               {/* Action Buttons & Rate Disclaimer */}
               <div className="pt-3 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 border-t border-[#F0EBE3]">
                 <p className="text-xs text-[#7A7168] italic font-serif">
-                  *{bookingSettings.rateDisclaimer} Direct room enquiry connects to hotel front desk.
+                  *{bookingSettings.rateDisclaimer} {t.quickBooking.disclaimer}
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 w-full md:w-auto">
@@ -299,7 +297,7 @@ export const QuickBookingCard: React.FC = () => {
                     title="Enquire directly on WhatsApp"
                   >
                     <MessageCircle className="w-4 h-4 text-[#25D366] shrink-0" />
-                    <span>Enquire on WhatsApp</span>
+                    <span>{t.quickBooking.enquireWhatsApp}</span>
                   </button>
 
                   <button
@@ -310,12 +308,12 @@ export const QuickBookingCard: React.FC = () => {
                     {isLoading ? (
                       <>
                         <Loader2 className="w-4 h-4 animate-spin shrink-0" />
-                        <span>Sending Enquiry...</span>
+                        <span>Sending...</span>
                       </>
                     ) : (
                       <>
                         <Send className="w-4 h-4 shrink-0" />
-                        <span>Send Booking Enquiry</span>
+                        <span>{t.quickBooking.sendEnquiry}</span>
                       </>
                     )}
                   </button>

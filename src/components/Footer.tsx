@@ -1,5 +1,7 @@
 import React from 'react';
 import { useHotelData } from '../context/HotelDataContext';
+import { useSEO } from '../seo/SeoContext';
+import { LanguageSelector } from './LanguageSelector';
 import { Phone, Mail, MapPin, ExternalLink, ArrowUp, Settings, Lock, MessageCircle } from 'lucide-react';
 
 interface FooterProps {
@@ -8,15 +10,15 @@ interface FooterProps {
 }
 
 export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onOpenAdmin }) => {
-  const { hotelInfo, contactInfo, bookingSettings } = useHotelData();
+  const { hotelInfo, contactInfo } = useHotelData();
+  const { t, generateWhatsAppUrl } = useSEO();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleWhatsApp = () => {
-    const message = bookingSettings.whatsappBookingMessage({});
-    const url = `https://wa.me/${contactInfo.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
+    const url = generateWhatsAppUrl('general');
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
@@ -170,8 +172,8 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onOpenAdmin }) =>
           </div>
         </div>
 
-        {/* Bottom Bar: Copyright & Top scroll */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#8F8375]">
+        {/* Bottom Bar: Copyright, Language & Top scroll */}
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#8F8375]">
           <div className="flex flex-wrap items-center gap-3">
             <span>© {new Date().getFullYear()} {hotelInfo.name}. All rights reserved.</span>
             <span className="hidden sm:inline">·</span>
@@ -184,13 +186,17 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onOpenAdmin }) =>
             </button>
           </div>
 
-          <button
-            onClick={scrollToTop}
-            className="flex items-center gap-1.5 hover:text-[#FAF7F2] transition-colors cursor-pointer text-xs uppercase tracking-wider"
-          >
-            <span>Back to Top</span>
-            <ArrowUp className="w-3.5 h-3.5" />
-          </button>
+          <div className="flex items-center gap-4">
+            <LanguageSelector variant="header" />
+
+            <button
+              onClick={scrollToTop}
+              className="flex items-center gap-1.5 hover:text-[#FAF7F2] transition-colors cursor-pointer text-xs uppercase tracking-wider"
+            >
+              <span>Back to Top</span>
+              <ArrowUp className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
       </div>
     </footer>

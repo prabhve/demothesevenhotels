@@ -15,4 +15,15 @@
   h1, h2, h3, .font-serif {
     font-family: var(--font-serif);
   }
+
+  [dir="rtl"] {
+    text-align: right;
+  }
+
+  [dir="rtl"] input[type="tel"],
+  [dir="rtl"] input[type="email"],
+  [dir="rtl"] input[type="date"] {
+    text-align: left;
+    direction: ltr;
+  }
 }
