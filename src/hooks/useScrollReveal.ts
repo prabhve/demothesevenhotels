@@ -80,9 +80,9 @@ export function useScrollReveal<T extends HTMLElement = HTMLDivElement>(
       case 'down':
         return `translate3d(0, -${distance}px, 0)`;
       case 'left':
-        return `translate3d(${distance}px, 0, 0)`;
       case 'right':
-        return `translate3d(-${distance}px, 0, 0)`;
+        // Avoid horizontal translation on mobile/desktop as it expands scrollWidth and blows out the viewport
+        return `translate3d(0, ${Math.min(distance, 16)}px, 0)`;
       case 'none':
         return 'translate3d(0, 0, 0) scale(0.98)';
       default:

@@ -44,7 +44,7 @@ export const LocationSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 items-stretch">
           {/* Map Preview Container */}
           <div className="lg:col-span-8 rounded-2xl overflow-hidden border border-[#E3DDD4] shadow-xs bg-[#EAE4DB] min-h-[380px] relative">
-            <ScrollReveal direction="right" delay={150}>
+            <ScrollReveal direction="up" delay={150}>
               <iframe
                 title="The Seven's Hotel Varanasi Location Map"
                 width="100%"

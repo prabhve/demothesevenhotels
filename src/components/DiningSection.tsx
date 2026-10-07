@@ -27,7 +27,7 @@ export const DiningSection: React.FC<DiningSectionProps> = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Column: Visual Photography of Restaurant & Meal Timings */}
           <div className="lg:col-span-6 space-y-6">
-            <ScrollReveal direction="right" delay={150}>
+            <ScrollReveal direction="up" delay={150}>
               <div className="rounded-2xl overflow-hidden border border-[#E8DFD5] shadow-md bg-[#1C1816]">
                 <div className="aspect-[16/10] w-full overflow-hidden relative">
                   <img

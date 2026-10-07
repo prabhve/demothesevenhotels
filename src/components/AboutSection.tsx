@@ -14,7 +14,7 @@ export const AboutSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Column: Visual Photography Collage & Monogram */}
           <div className="lg:col-span-5 relative">
-            <ScrollReveal direction="right" delay={150}>
+            <ScrollReveal direction="up" delay={150}>
               <div className="relative rounded-2xl overflow-hidden border border-[#E5DFD5] shadow-lg bg-[#181412]">
                 {/* Main Hero Photo */}
                 <div className="aspect-[4/3] w-full overflow-hidden relative">
@@ -90,7 +90,7 @@ export const AboutSection: React.FC = () => {
 
           {/* Right Column: Editorial Copy */}
           <div className="lg:col-span-7">
-            <ScrollReveal direction="left" delay={250}>
+            <ScrollReveal direction="up" delay={250}>
               <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#9E6738] font-semibold mb-3">
                 <MapPin className="w-3.5 h-3.5" />
                 <span>{t.about.tagline}</span>
