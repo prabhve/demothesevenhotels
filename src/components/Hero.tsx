@@ -28,21 +28,21 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
 
   return (
     <section className="relative min-h-[85vh] md:min-h-[92vh] flex items-center justify-center overflow-hidden bg-[#14100E] text-[#FAF7F2]">
-      {/* High-Resolution Varanasi Riverfront / Hotel Ambient Background with Layered Overlays */}
+      {/* High-Resolution Varanasi Assi Ghat & Ganges Sunrise Ambient Background with Warm Gold Overlays */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=2000&q=85"
-          alt="Assi Ghat Varanasi Riverfront Morning"
-          className="w-full h-full object-cover object-center scale-105 animate-pulse duration-[8000ms] opacity-40 brightness-75"
+          src="https://images.unsplash.com/photo-1571536802807-ee5707767353?auto=format&fit=crop&w=2400&q=85"
+          alt="Spiritual Varanasi Ghats on Sacred River Ganges at Sunrise"
+          className="w-full h-full object-cover object-center scale-105 opacity-45 brightness-90 saturate-125"
           referrerPolicy="no-referrer"
         />
 
-        {/* Deep luxury vignette gradient overlay for pristine text contrast */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#14100E]/90 via-[#181412]/75 to-[#14100E] z-10" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#14100E_85%)] z-10" />
+        {/* Deep luxury vignette gradient overlay for rich contrast and Varanasi ambiance */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#14100E]/85 via-[#181412]/60 to-[#14100E] z-10" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#14100E_80%)] z-10" />
 
-        {/* Ambient atmospheric warm sandstone glow */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-[#B47A46]/20 blur-[140px] rounded-full pointer-events-none z-10" />
+        {/* Ambient atmospheric warm Banarasi sandstone glow */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[380px] bg-[#C89B6A]/20 blur-[130px] rounded-full pointer-events-none z-10" />
       </div>
 
       {/* Main Content */}
