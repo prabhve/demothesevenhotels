@@ -22,7 +22,7 @@ export const SeoDebugPanel: React.FC = () => {
   const isDescOptimal = descLength >= 110 && descLength <= 165;
 
   return (
-    <div className="fixed bottom-20 left-4 z-40 text-xs font-mono">
+    <div className="hidden md:block fixed bottom-6 left-4 z-40 text-xs font-mono">
       {!isOpen ? (
         <button
           onClick={() => setIsOpen(true)}

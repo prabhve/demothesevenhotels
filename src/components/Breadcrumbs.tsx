@@ -20,8 +20,8 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ crumbs }) => {
   const { currentLocale } = useSEO();
 
   return (
-    <nav aria-label="Breadcrumb" className="py-2.5 px-4 bg-[#FAF8F5] border-b border-[#E8DFD5] text-xs">
-      <div className="max-w-7xl mx-auto flex items-center gap-1.5 text-[#7A7168] overflow-x-auto whitespace-nowrap scrollbar-none">
+    <nav aria-label="Breadcrumb" className="w-full max-w-full py-2 sm:py-2.5 px-3 sm:px-4 bg-[#FAF8F5] border-b border-[#E8DFD5] text-[11px] sm:text-xs overflow-hidden">
+      <div className="max-w-7xl mx-auto flex items-center gap-1.5 text-[#7A7168] overflow-x-auto whitespace-nowrap scrollbar-none min-w-0">
         <a
           href={`/${currentLocale.code}`}
           className="flex items-center gap-1 hover:text-[#C89B6A] transition-colors"

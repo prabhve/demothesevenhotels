@@ -70,21 +70,21 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
             : 'bg-[#181412]/90 backdrop-blur-sm border-b border-[#B47A46]/15 py-3 sm:py-4'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 sm:gap-4 min-w-0">
           {/* Brand Identity / Monogram & Wordmark */}
           <a
             href="#"
-            className="flex items-center gap-2.5 sm:gap-3 group shrink-0"
+            className="flex items-center gap-2 sm:gap-3 group min-w-0 shrink"
             aria-label="The Seven's Hotel Varanasi"
           >
             <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gradient-to-br from-[#D8AE7F] via-[#C89B6A] to-[#A87B4E] text-[#14100E] font-serif font-bold text-base sm:text-lg flex items-center justify-center shadow-md border border-[#FAF7F2]/20 group-hover:scale-105 transition-transform shrink-0">
               7
             </div>
-            <div className="flex flex-col">
-              <span className="text-base sm:text-lg font-serif tracking-[0.06em] text-[#FAF7F2] group-hover:text-[#C89B6A] transition-colors whitespace-nowrap uppercase font-semibold leading-tight">
+            <div className="flex flex-col min-w-0 truncate">
+              <span className="text-sm sm:text-base lg:text-lg font-serif tracking-[0.04em] sm:tracking-[0.06em] text-[#FAF7F2] group-hover:text-[#C89B6A] transition-colors truncate uppercase font-semibold leading-tight">
                 {hotelInfo.name}
               </span>
-              <span className="text-[9px] sm:text-[10px] text-[#C89B6A] tracking-[0.2em] uppercase font-medium">
+              <span className="text-[8.5px] sm:text-[10px] text-[#C89B6A] tracking-[0.16em] sm:tracking-[0.2em] uppercase font-medium truncate">
                 Varanasi · Assi Ghat
               </span>
             </div>
@@ -136,7 +136,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
           </nav>
 
           {/* Right Action Zone: Language + Call + Book Your Stay */}
-          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
             {/* Multilingual Selector (Desktop & Tablet) */}
             <div className="hidden sm:block">
               <LanguageSelector variant="header" />
@@ -152,10 +152,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenBooking }) => {
               <span className="hidden xl:inline">{t.nav.call}</span>
             </a>
 
-            {/* Primary Action: Book Your Stay CTA */}
+            {/* Primary Action: Book Your Stay CTA (Hidden on mobile where bottom sticky bar is present) */}
             <button
               onClick={onOpenBooking}
-              className="px-3.5 sm:px-5 py-2 sm:py-2.5 text-xs uppercase tracking-wider font-semibold text-[#181412] bg-[#C89B6A] hover:bg-[#D8AE7F] active:bg-[#B47A46] rounded-lg shadow-md transition-all whitespace-nowrap cursor-pointer hover:shadow-[#C89B6A]/20 shrink-0"
+              className="hidden sm:inline-flex px-3.5 sm:px-5 py-2 sm:py-2.5 text-xs uppercase tracking-wider font-semibold text-[#181412] bg-[#C89B6A] hover:bg-[#D8AE7F] active:bg-[#B47A46] rounded-lg shadow-md transition-all whitespace-nowrap cursor-pointer hover:shadow-[#C89B6A]/20 shrink-0"
             >
               {t.nav.bookStay}
             </button>

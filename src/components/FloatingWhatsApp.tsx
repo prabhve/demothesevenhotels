@@ -11,7 +11,7 @@ export const FloatingWhatsApp: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-20 md:bottom-6 right-5 z-40">
+    <div className="hidden md:block fixed bottom-6 right-5 z-40">
       <button
         onClick={handleClick}
         className="group relative flex items-center justify-center w-13 h-13 rounded-full bg-[#25D366] hover:bg-[#20BA5A] text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#25D366]/50"

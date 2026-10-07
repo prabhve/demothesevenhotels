@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { HotelDataProvider } from './context/HotelDataContext';
 import { SeoProvider } from './seo/SeoContext';
 import { AnnouncementBar } from './components/AnnouncementBar';
+import { LanguageSuggestionBanner } from './components/LanguageSuggestionBanner';
+import { Breadcrumbs } from './components/Breadcrumbs';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { QuickBookingCard } from './components/QuickBookingCard';
@@ -23,6 +25,7 @@ import { BookingModal } from './components/BookingModal';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { MobileStickyBar } from './components/MobileStickyBar';
 import { AdminPortal } from './components/AdminPortal';
+import { SeoDebugPanel } from './components/SeoDebugPanel';
 
 function MainApp() {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
@@ -39,12 +42,18 @@ function MainApp() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFCF9] text-[#24201D] flex flex-col antialiased selection:bg-[#B47A46]/20 selection:text-[#1C1816]">
+    <div className="w-full max-w-full overflow-x-hidden min-h-screen bg-[#FDFCF9] text-[#24201D] flex flex-col antialiased selection:bg-[#B47A46]/20 selection:text-[#1C1816]">
+      {/* 0. Non-Intrusive Language Suggestion Banner */}
+      <LanguageSuggestionBanner />
+
       {/* 1. Top Announcement Bar */}
       <AnnouncementBar />
 
-      {/* 2. Premium Navigation */}
+      {/* 2. Premium Navigation with Multilingual Selector */}
       <Navbar onOpenBooking={() => handleOpenBooking()} />
+
+      {/* 2.5 Semantic Navigation Breadcrumbs */}
+      <Breadcrumbs crumbs={[{ label: 'Assi–Lanka Road', href: '#location' }, { label: 'Bhadaini, Varanasi' }]} />
 
       <main className="flex-1">
         {/* 3. Hero Section */}
@@ -117,6 +126,9 @@ function MainApp() {
 
       {/* Mobile Sticky Booking Bar */}
       <MobileStickyBar onOpenBooking={() => handleOpenBooking()} />
+
+      {/* Development SEO Diagnostics Panel */}
+      <SeoDebugPanel />
     </div>
   );
 }

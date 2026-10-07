@@ -46,12 +46,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 text-center flex flex-col items-center">
+      <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 md:py-24 text-center flex flex-col items-center w-full min-w-0">
         <ScrollReveal direction="down" delay={100}>
           {/* Eyebrow badge */}
-          <div className="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full border border-[#B47A46]/40 bg-[#1C1816]/80 backdrop-blur-md shadow-md">
-            <Sparkles className="w-3.5 h-3.5 text-[#C89B6A]" />
-            <span className="text-[11px] sm:text-xs uppercase tracking-[0.24em] font-medium text-[#D8CEBF]">
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 mb-4 sm:mb-5 px-3 sm:px-4 py-1.5 rounded-full border border-[#B47A46]/40 bg-[#1C1816]/80 backdrop-blur-md shadow-md max-w-full">
+            <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#C89B6A] shrink-0" />
+            <span className="text-[9.5px] sm:text-xs uppercase tracking-[0.16em] sm:tracking-[0.22em] font-medium text-[#D8CEBF] truncate">
               {hotelInfo.name.toUpperCase()} · BHADAINI, VARANASI
             </span>
           </div>
@@ -59,24 +59,24 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
 
         <ScrollReveal direction="up" delay={200}>
           {/* Main Headline */}
-          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-serif text-[#FAF7F2] font-normal tracking-tight leading-[1.12] mb-6 text-balance max-w-4xl drop-shadow-md">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif text-[#FAF7F2] font-normal tracking-tight leading-[1.15] mb-4 sm:mb-6 text-balance max-w-4xl drop-shadow-md">
             {t.hero.title}
           </h1>
         </ScrollReveal>
 
         <ScrollReveal direction="up" delay={300}>
           {/* Subheading */}
-          <p className="text-sm sm:text-base md:text-lg text-[#E0D6CB] max-w-2xl font-light leading-relaxed mb-8 text-balance mx-auto drop-shadow-xs">
+          <p className="text-xs sm:text-base md:text-lg text-[#E0D6CB] max-w-2xl font-light leading-relaxed mb-6 sm:mb-8 text-balance mx-auto drop-shadow-xs px-1">
             {t.hero.subheading}
           </p>
         </ScrollReveal>
 
         <ScrollReveal direction="up" delay={400}>
           {/* Primary & Secondary Action CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-4 w-full sm:w-auto max-w-md sm:max-w-none mx-auto">
             <button
               onClick={handleScrollToBooking}
-              className="w-full sm:w-auto px-7 py-3.5 text-xs sm:text-sm uppercase tracking-widest font-semibold text-[#181412] bg-[#C89B6A] hover:bg-[#D8AE7F] active:bg-[#B47A46] rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 group cursor-pointer"
+              className="w-full sm:w-auto px-6 sm:px-7 py-3 sm:py-3.5 text-xs sm:text-sm uppercase tracking-widest font-semibold text-[#181412] bg-[#C89B6A] hover:bg-[#D8AE7F] active:bg-[#B47A46] rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 group cursor-pointer"
             >
               <span>{t.hero.ctaPrimary}</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -84,7 +84,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
 
             <button
               onClick={handleWhatsAppChat}
-              className="w-full sm:w-auto px-6 py-3.5 text-xs sm:text-sm uppercase tracking-widest font-semibold text-[#FAF7F2] bg-[#1C1816]/90 hover:bg-[#251F1C] border border-[#25D366]/40 hover:border-[#25D366] rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md backdrop-blur-sm"
+              className="w-full sm:w-auto px-5 sm:px-6 py-3 sm:py-3.5 text-xs sm:text-sm uppercase tracking-widest font-semibold text-[#FAF7F2] bg-[#1C1816]/90 hover:bg-[#251F1C] border border-[#25D366]/40 hover:border-[#25D366] rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md backdrop-blur-sm"
             >
               <MessageCircle className="w-4 h-4 text-[#25D366]" />
               <span>{t.hero.ctaSecondary}</span>
@@ -94,19 +94,19 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
 
         <ScrollReveal direction="up" delay={500}>
           {/* Subtle Trust Indicators Under CTA */}
-          <div className="mt-10 sm:mt-12 pt-8 border-t border-[#B47A46]/25 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs sm:text-sm text-[#D8CEBF] font-normal backdrop-blur-xs">
-            <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-[#C89B6A]" />
+          <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-[#B47A46]/25 flex flex-wrap items-center justify-center gap-3 sm:gap-8 text-[11px] sm:text-sm text-[#D8CEBF] font-normal backdrop-blur-xs">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C89B6A] shrink-0" />
               <span>{t.hero.trustPills.nearAssi}</span>
             </div>
             <div className="hidden sm:block text-[#B47A46]/40" aria-hidden="true">•</div>
-            <div className="flex items-center gap-2">
-              <BedDouble className="w-4 h-4 text-[#C89B6A]" />
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <BedDouble className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C89B6A] shrink-0" />
               <span>{t.hero.trustPills.comfortableRooms}</span>
             </div>
             <div className="hidden sm:block text-[#B47A46]/40" aria-hidden="true">•</div>
-            <div className="flex items-center gap-2">
-              <HeartHandshake className="w-4 h-4 text-[#C89B6A]" />
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <HeartHandshake className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C89B6A] shrink-0" />
               <span>{t.hero.trustPills.guestServices}</span>
             </div>
           </div>
