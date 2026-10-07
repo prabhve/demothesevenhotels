@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHotelData } from '../context/HotelDataContext';
-import { Phone, Mail, MapPin, ExternalLink, ArrowUp, Settings, Lock } from 'lucide-react';
+import { Phone, Mail, MapPin, ExternalLink, ArrowUp, Settings, Lock, MessageCircle } from 'lucide-react';
 
 interface FooterProps {
   onOpenBooking: () => void;
@@ -30,49 +30,56 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onOpenAdmin }) =>
               {hotelInfo.name}
             </a>
             <p className="text-xs uppercase tracking-widest text-[#C89B6A]">
-              {hotelInfo.category} · Varanasi
+              Comfortable Stay Near Assi Ghat · Varanasi
             </p>
             <p className="text-sm text-[#D8CEBF]/80 leading-relaxed max-w-sm">
-              Comfortable stays in the heart of Varanasi. Situated on Assi–Lanka Road in Bhadaini, offering contemporary rooms and warm city hospitality.
+              Contemporary hospitality situated on Assi–Lanka Road in Bhadaini, offering clean air-conditioned rooms, warm service, and convenient connectivity to Varanasi's spiritual and cultural landmarks.
             </p>
-            <div className="pt-2">
-              <span className="text-xs text-[#8F8375] italic font-serif">
-                Check-in: {hotelInfo.checkInTime} / Check-out: {hotelInfo.checkOutTime}
-              </span>
+            <div className="pt-2 text-xs text-[#8F8375] italic font-serif">
+              Check-in: {hotelInfo.checkInTime} / Check-out: {hotelInfo.checkOutTime}
             </div>
           </div>
 
-          {/* Quick Navigation */}
+          {/* Quick Navigation Links */}
           <div className="lg:col-span-2 space-y-3">
             <h4 className="text-xs uppercase tracking-[0.2em] text-[#C89B6A] font-semibold">
-              Navigation
+              Quick Links
             </h4>
             <ul className="space-y-2 text-sm text-[#D8CEBF]">
               <li>
                 <a href="#" className="hover:text-white transition-colors">Home</a>
               </li>
               <li>
-                <a href="#rooms" className="hover:text-white transition-colors">Rooms</a>
+                <a href="#rooms" className="hover:text-white transition-colors">Rooms & Tariffs</a>
               </li>
               <li>
-                <a href="#facilities" className="hover:text-white transition-colors">Facilities</a>
+                <a href="#facilities" className="hover:text-white transition-colors">Hotel Facilities</a>
               </li>
               <li>
-                <a href="#dining" className="hover:text-white transition-colors">Dining</a>
+                <a href="#dining" className="hover:text-white transition-colors">Flavours Dining</a>
               </li>
               <li>
-                <a href="#location" className="hover:text-white transition-colors">Location</a>
+                <a href="#gallery" className="hover:text-white transition-colors">Photo Gallery</a>
               </li>
               <li>
-                <a href="#gallery" className="hover:text-white transition-colors">Gallery</a>
+                <a href="#experience-varanasi" className="hover:text-white transition-colors">Experience Varanasi</a>
               </li>
               <li>
-                <a href="#contact" className="hover:text-white transition-colors">Contact</a>
+                <a href="#location" className="hover:text-white transition-colors">Location & Map</a>
+              </li>
+              <li>
+                <a href="#reviews" className="hover:text-white transition-colors">Guest Reviews</a>
+              </li>
+              <li>
+                <a href="#faq" className="hover:text-white transition-colors">Stay FAQ</a>
+              </li>
+              <li>
+                <a href="#contact" className="hover:text-white transition-colors">Contact Us</a>
               </li>
             </ul>
           </div>
 
-          {/* Booking & Reservations */}
+          {/* Reservations & Enquiries */}
           <div className="lg:col-span-3 space-y-3">
             <h4 className="text-xs uppercase tracking-[0.2em] text-[#C89B6A] font-semibold">
               Reservations
@@ -81,22 +88,29 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onOpenAdmin }) =>
               <li>
                 <button
                   onClick={onOpenBooking}
-                  className="hover:text-[#C89B6A] transition-colors text-left cursor-pointer"
+                  className="hover:text-[#C89B6A] transition-colors text-left cursor-pointer font-medium text-white"
                 >
-                  Book Your Stay
+                  Book Your Stay Online
                 </button>
               </li>
               <li>
                 <button
                   onClick={handleWhatsApp}
-                  className="hover:text-[#25D366] transition-colors text-left cursor-pointer"
+                  className="hover:text-[#25D366] transition-colors text-left cursor-pointer flex items-center gap-1.5"
                 >
-                  WhatsApp Booking Desk
+                  <MessageCircle className="w-3.5 h-3.5 text-[#25D366]" />
+                  <span>WhatsApp Booking Desk</span>
                 </button>
               </li>
               <li>
-                <a href={`tel:${contactInfo.primaryPhoneRaw}`} className="hover:text-white transition-colors">
-                  Call Front Desk ({contactInfo.primaryPhone})
+                <a href={`tel:${contactInfo.primaryPhoneRaw}`} className="hover:text-white transition-colors flex items-center gap-1.5">
+                  <Phone className="w-3.5 h-3.5 text-[#C89B6A]" />
+                  <span>Call {contactInfo.primaryPhone}</span>
+                </a>
+              </li>
+              <li>
+                <a href="#policies" className="hover:text-white transition-colors text-xs text-[#A89C8F]">
+                  Reservation & ID Policies
                 </a>
               </li>
               <li>
@@ -143,7 +157,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onOpenAdmin }) =>
               </div>
             </div>
 
-            {/* Prominent Admin Access Button */}
+            {/* Admin Access Button */}
             <div className="pt-3">
               <button
                 onClick={onOpenAdmin}
@@ -156,7 +170,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onOpenAdmin }) =>
           </div>
         </div>
 
-        {/* Bottom Bar: Copyright, CMS & Top scroll */}
+        {/* Bottom Bar: Copyright & Top scroll */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#8F8375]">
           <div className="flex flex-wrap items-center gap-3">
             <span>© {new Date().getFullYear()} {hotelInfo.name}. All rights reserved.</span>
@@ -166,7 +180,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBooking, onOpenAdmin }) =>
               className="text-[#A89C8F] hover:text-[#C89B6A] inline-flex items-center gap-1 transition-colors cursor-pointer"
             >
               <Lock className="w-3 h-3" />
-              <span>Admin Login & Editor</span>
+              <span>Admin CMS</span>
             </button>
           </div>
 

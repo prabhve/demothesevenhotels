@@ -9,9 +9,11 @@ import { RoomsSection } from './components/RoomsSection';
 import { WhyStaySection } from './components/WhyStaySection';
 import { FacilitiesSection } from './components/FacilitiesSection';
 import { DiningSection } from './components/DiningSection';
+import { ExperienceVaranasiSection } from './components/ExperienceVaranasiSection';
 import { LocationSection } from './components/LocationSection';
 import { TestimonialsSection } from './components/TestimonialsSection';
 import { GallerySection } from './components/GallerySection';
+import { FAQSection } from './components/FAQSection';
 import { BookingCTASection } from './components/BookingCTASection';
 import { ContactSection } from './components/ContactSection';
 import { PoliciesSection } from './components/PoliciesSection';
@@ -35,69 +37,62 @@ function MainApp() {
     setIsBookingModalOpen(false);
   };
 
-  const handleQuickAvailabilityCheck = (details: {
-    checkIn: string;
-    checkOut: string;
-    guests: string;
-    roomType: string;
-  }) => {
-    setSelectedRoomName(details.roomType);
-    setIsBookingModalOpen(true);
-  };
-
   return (
     <div className="min-h-screen bg-[#FDFCF9] text-[#24201D] flex flex-col antialiased selection:bg-[#B47A46]/20 selection:text-[#1C1816]">
-      {/* 1. Announcement / Top Bar */}
+      {/* 1. Top Announcement Bar */}
       <AnnouncementBar />
 
       {/* 2. Premium Navigation */}
-      <Navbar
-        onOpenBooking={() => handleOpenBooking()}
-        onOpenAdmin={() => setIsAdminPortalOpen(true)}
-      />
+      <Navbar onOpenBooking={() => handleOpenBooking()} />
 
       <main className="flex-1">
-        {/* 3. Sophisticated Full-Width Hero */}
+        {/* 3. Hero Section */}
         <Hero onOpenBooking={() => handleOpenBooking()} />
 
-        {/* 4. Quick Booking / Search Card */}
-        <QuickBookingCard onCheckAvailability={handleQuickAvailabilityCheck} />
+        {/* 4. Quick Booking & Search Card */}
+        <QuickBookingCard />
 
         {/* 5. Introduction & About */}
         <AboutSection />
 
-        {/* 6. Rooms Section */}
+        {/* 6. Rooms Showcase & Comparison */}
         <RoomsSection onSelectRoom={(roomName) => handleOpenBooking(roomName)} />
 
-        {/* 7. Why Stay With Us */}
+        {/* 7. Why Stay With Us (5 Pillars) */}
         <WhyStaySection />
 
-        {/* 8. Facilities (Verified Amenities Only) */}
+        {/* 8. Facilities Grid */}
         <FacilitiesSection />
 
         {/* 9. Dining: Flavours at The Seven's */}
         <DiningSection onOpenDiningEnquiry={() => handleOpenBooking()} />
 
-        {/* 10. Varanasi / Location Experience */}
+        {/* 10. Experience Varanasi from Assi */}
+        <ExperienceVaranasiSection />
+
+        {/* 11. Location & Connectivity */}
         <LocationSection />
 
-        {/* 11. Guest Testimonials */}
+        {/* 12. Guest Reviews */}
         <TestimonialsSection />
 
-        {/* 12. Property Gallery */}
+        {/* 13. Property Gallery */}
         <GallerySection />
 
-        {/* 13. Booking CTA Banner */}
+        {/* 14. Frequently Asked Questions */}
+        <FAQSection />
+
+        {/* 15. Booking CTA Banner */}
         <BookingCTASection onOpenBooking={() => handleOpenBooking()} />
 
-        {/* 14. Contact & Interactive Map */}
+        {/* 16. Contact & Reservation Guidelines */}
         <ContactSection />
 
-        {/* 15. Property Policies & Timings */}
+        {/* 17. Property Policies & ID Rules */}
         <PoliciesSection />
       </main>
 
-      {/* 16. Footer */}
+      {/* 18. Comprehensive Footer */}
       <Footer
         onOpenBooking={() => handleOpenBooking()}
         onOpenAdmin={() => setIsAdminPortalOpen(true)}
